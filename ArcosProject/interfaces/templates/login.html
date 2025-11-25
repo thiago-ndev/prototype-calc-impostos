@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <h2>Login</h2>
+    <p>Digite abaixo o Número de Identificação (CPF ou CNPJ) do contribuinte que deseja simular.</p>
+
+    <div class="field-group">
+        <label for="cpf_cnpj" class="field-title">CPF ou CNPJ (obrigatório)</label>
+        <input type="text" id="cpf_cnpj" name="cpf_cnpj" style="padding: 8px; width: 300px; border: 1px solid #dc3545;">
+        <p style="color: #dc3545; font-size: 0.9em;">Campo obrigatório. Números do CPF ou CNPJ.</p>
+    </div>
+
+    <button type="submit" class="btn">Enviar</button>
+    <a href="#" class="btn btn-success">Entrar com gov.br</a>
+{% endblock %}

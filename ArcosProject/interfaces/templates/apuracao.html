@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Apuração Assistida{% endblock %}
+
+{% block content %}
+    <h1>Apuração Assistida</h1>
+    <p>Apuração assistida do saldo da CBS no período de apuração, que poderá ser ajustada pelo contribuinte na forma e no prazo previstos pelo regulamento.</p>
+
+    <div style="margin-bottom: 20px;">
+        <p><strong>Timeline:</strong> Andamento → Ajuste → Encerrada</p>
+        <div class="grid-2">
+            <div class="field-group">
+                <label class="field-title">Período</label>
+                <span>04/2025</span> | <span>Em Andamento</span>
+            </div>
+            <div class="field-group">
+                <label class="field-title">Status do Período</label>
+                <span>Encerrada pelo contribuinte / Em Andamento</span>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    
+    <h2>Resumo do Período (DERE)</h2>
+    <div class="grid-2">
+        <div class="field-group">
+            <label class="field-title">Receita</label>
+            <div class="data-card">[Valor de Receita]</div>
+        </div>
+        <div class="field-group">
+            <label class="field-title">Valores Corretagem</label>
+            <div class="data-card">[Valor de Corretagem]</div>
+        </div>
+        <div class="field-group">
+            <label class="field-title">Sinistros</label>
+            <div class="data-card">[Valor de Sinistros]</div>
+        </div>
+        <div class="field-group">
+            <label class="field-title">Base de Cálculo</label>
+            <div class="data-card">[Valor de Base de Cálculo]</div>
+        </div>
+        <div class="field-group">
+            <label class="field-title">Alíquota (%)</label>
+            <div class="data-card">[Valor de Alíquota]</div>
+        </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: 20px;">
+        <div class="field-group" style="background-color: #fff3cd;">
+            <label class="field-title">Total de Débitos</label>
+            <div class="data-card">[Valor Total de Débitos]</div>
+        </div>
+        <div class="field-group" style="background-color: #d4edda;">
+            <label class="field-title">IVA a Pagar / Resultado do Período</label>
+            <div class="data-card">[Resultado R$ 2.200,00 C]</div>
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>Operações de Crédito</h2>
+    <p>KPIs Gerais: Total de Créditos, Ressarcidos, Prescritos</p>
+
+    <h3>Portal RT</h3>
+    <div class="grid-2">
+        <div class="field-group"><label class="field-title">Total de Créditos</label><div class="data-card">[Valor Total de Créditos]</div></div>
+        <div class="field-group"><label class="field-title">Não Apropriados</label><div class="data-card">[Valor Não Apropriados]</div></div>
+        <div class="field-group"><label class="field-title">Apropriados</label><div class="data-card">[Valor Apropriados]</div></div>
+        <div class="field-group"><label class="field-title">Utilizados</label><div class="data-card">[Valor Utilizados]</div></div>
+        <div class="field-group"><label class="field-title">Não Utilizados</label><div class="data-card">[Valor Não Utilizados]</div></div>
+        <div class="field-group"><label class="field-title">Créditos Utilizados</label><div class="data-card">[Valor Créditos Utilizados]</div></div>
+    </div>
+
+    <h3>Captura (Informações Complementares)</h3>
+    <div class="grid-2">
+        <div class="field-group"><label class="field-title">Total de Créditos</label><div class="data-card">[Valor Total de Créditos Captura]</div></div>
+        <div class="field-group"><label class="field-title">Créditos do Mês</label><div class="data-card">[Valor Créditos do Mês]</div></div>
+        <div class="field-group"><label class="field-title">Meses Anteriores</label><div class="data-card">[Valor Meses Anteriores]</div></div>
+    </div>
+
+    <hr>
+
+    <h2>Destinação do Saldo da Apuração</h2>
+    <div class="grid-2">
+        <div class="field-group">
+            <label class="field-title">Enviado para Período Seguinte</label>
+            <div class="data-card">R$ 1.000,00 C</div>
+        </div>
+        <div class="field-group">
+            <label class="field-title">Enviado para Ressarcimento</label>
+            <div class="data-card">R$ 1.200,00 C</div>
+            <button class="btn btn-success" style="margin-top: 10px;">Acompanhar</button>
+        </div>
+    </div>
+{% endblock %}
