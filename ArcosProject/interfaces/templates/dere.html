@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Apuração Assistida{% endblock %}
+
+{% block content %}
+
+    <hr>
+    
+    <h2>Resumo do Período (DERE)</h2>
+    <div class="grid-2">
+        <div class="field-group">
+            <label class="field-title">Receita</label>
+            <div class="data-card">[Valor de Receita]</div>
+        </div>
+        <div class="field-group">
+            <label class="field-title">Valores Corretagem</label>
+            <div class="data-card">[Valor de Corretagem]</div>
+        </div>
+        <div class="field-group">
+            <label class="field-title">Sinistros</label>
+            <div class="data-card">[Valor de Sinistros]</div>
+        </div>
+        <div class="field-group">
+            <label class="field-title">Base de Cálculo</label>
+            <div class="data-card">[Valor de Base de Cálculo]</div>
+        </div>
+        <div class="field-group">
+            <label class="field-title">Alíquota (%)</label>
+            <div class="data-card">[Valor de Alíquota]</div>
+        </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: 20px;">
+        <div class="field-group" style="background-color: #fff3cd;">
+            <label class="field-title">Total de Débitos</label>
+            <div class="data-card">[Valor Total de Débitos]</div>
+        </div>
+        <div class="field-group" style="background-color: #d4edda;">
+            <label class="field-title">IVA a Pagar / Resultado do Período</label>
+            <div class="data-card">[Resultado R$ 2.200,00 C]</div>
+        </div>
+    </div>
+{% endblock %}

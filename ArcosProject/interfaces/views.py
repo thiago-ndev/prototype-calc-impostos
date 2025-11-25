@@ -15,3 +15,6 @@ def apuracao_view(request):
 # 4. Modal/Página de Pagamento
 def pagamento_view(request):
     return render(request, 'pagamento.html', {'title': 'Débitos para Pagamento'})
+
+def dere_view(request):
+    return render(request, 'dere.html', {'title': 'Declaração Eletrônica de Regimes Específicos'})
