@@ -20,7 +20,7 @@
 
     <h2>Resumo de Valores</h2>
     <div style="display: flex; gap: 20px; justify-content: space-between;">
-        <div class="field-group"><label class="field-title">Valor Total de Principal</label><div class="data-card">R$ 2.000,00</div></div>
+        <div class="field-group"><label class="field-title">Valor Total de Principal</label><div class="data-card">IVA a Pagar / Resultado do <Período></Período></div></div>
         <div class="field-group"><label class="field-title">Valor Total de Juros</label><div class="data-card">R$ 0,00</div></div>
         <div class="field-group"><label class="field-title">Valor Total de Multa</label><div class="data-card">R$ 0,00</div></div>
         <div class="field-group" style="background-color: #d4edda;"><label class="field-title">Valor Total a Pagar</label><div class="data-card">R$ 2.000,00</div></div>
@@ -53,9 +53,11 @@
         <span>Exibir 5 de 1-1 itens</span>
         <span>Página 1</span>
     </div>
-
+    <div style="text-align: left; margin-top: 30px;">
+        <button class="btn">Imprimir Recibo</button>
     <div style="text-align: right; margin-top: 30px;">
         <button class="btn btn-danger">Cancelar</button>
-        <button class="btn btn-success">Confirmar</button>
+        <button class="btn btn-success">Gerar DARF</button>
+    </div>
     </div>
 {% endblock %}

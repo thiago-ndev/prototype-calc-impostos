@@ -4,14 +4,14 @@
 
 {% block content %}
     <h1>Apuração Assistida</h1>
-    <p>Apuração assistida do saldo da CBS no período de apuração, que poderá ser ajustada pelo contribuinte na forma e no prazo previstos pelo regulamento.</p>
+    <!--<p>Apuração assistida do saldo da CBS no período de apuração, que poderá ser ajustada pelo contribuinte na forma e no prazo previstos pelo regulamento.</p>-->
 
     <div style="margin-bottom: 20px;">
-        <p><strong>Timeline:</strong> Andamento → Ajuste → Encerrada</p>
+        <p><strong>Timeline:</strong> Andamento → Ajuste → Encerrada </p>
         <div class="grid-2">
             <div class="field-group">
                 <label class="field-title">Período</label>
-                <span>04/2025</span> | <span>Em Andamento</span>
+                <span>01/2026</span> | <span>Em Andamento</span>
             </div>
             <div class="field-group">
                 <label class="field-title">Status do Período</label>
@@ -22,7 +22,7 @@
 
     <hr>
     
-    <h2>Resumo do Período (DERE)</h2>
+    <!--<h2>Resumo do Período (DERE)</h2>-->
     <div class="grid-2">
         <div class="field-group">
             <label class="field-title">Receita</label>
@@ -47,9 +47,13 @@
     </div>
 
     <div class="grid-2" style="margin-top: 20px;">
-        <div class="field-group" style="background-color: #fff3cd;">
+        <div class="field-group" style="background-color: #ff8b94;">
             <label class="field-title">Total de Débitos</label>
             <div class="data-card">[Valor Total de Débitos]</div>
+        </div>
+        <div class="field-group" style="background-color: #90d2d8;">
+            <label class="field-title">Total de Créditos</label>
+            <div class="data-card">[Resultado R$ 2.200,00 C]</div>
         </div>
         <div class="field-group" style="background-color: #d4edda;">
             <label class="field-title">IVA a Pagar / Resultado do Período</label>
@@ -60,7 +64,6 @@
     <hr>
 
     <h2>Operações de Crédito</h2>
-    <p>KPIs Gerais: Total de Créditos, Ressarcidos, Prescritos</p>
 
     <h3>Portal RT</h3>
     <div class="grid-2">
@@ -74,9 +77,9 @@
 
     <h3>Captura (Informações Complementares)</h3>
     <div class="grid-2">
-        <div class="field-group"><label class="field-title">Total de Créditos</label><div class="data-card">[Valor Total de Créditos Captura]</div></div>
-        <div class="field-group"><label class="field-title">Créditos do Mês</label><div class="data-card">[Valor Créditos do Mês]</div></div>
-        <div class="field-group"><label class="field-title">Meses Anteriores</label><div class="data-card">[Valor Meses Anteriores]</div></div>
+        <div class="field-group"><label class="field-title">Total de Créditos</label><div class="data-card">35k</div></div>
+        <div class="field-group"><label class="field-title">Créditos do Mês</label><div class="data-card">25k</div></div>
+        <div class="field-group"><label class="field-title">Meses Anteriores</label><div class="data-card">10k</div></div>
     </div>
 
     <hr>
@@ -85,12 +88,39 @@
     <div class="grid-2">
         <div class="field-group">
             <label class="field-title">Enviado para Período Seguinte</label>
-            <div class="data-card">R$ 1.000,00 C</div>
+            <div class="data-card">Não Utilizados</div>
         </div>
         <div class="field-group">
             <label class="field-title">Enviado para Ressarcimento</label>
             <div class="data-card">R$ 1.200,00 C</div>
-            <button class="btn btn-success" style="margin-top: 10px;">Acompanhar</button>
+
+            <form action="{% url 'receita' %}" method="POST">
+        {% csrf_token %}
+            <button type="submit" class="btn btn-success" style="margin-top: 10px;">Enviar</button>
+            </form>
         </div>
     </div>
+
+    {% if exibir_modal_confirmacao %}
+        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+
+        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; text-align: center; border: 2px solid #106f36;">
+
+            <h3 style="color: #333;">Confirmação de Envio</h3>
+            <p>Deseja realmente enviar os dados para a Receita Federal?</p>
+            <p style="font-size: 0.9em; color: #666;">Essa ação levará para a tela de pagamento.</p>
+
+            <div style="margin-top: 20px; display: flex; gap: 15px; justify-content: center;">
+
+                <a href="{% url 'apuracao' %}" class="btn btn-danger" style="text-decoration: none;">Não</a>
+
+                <form action="{% url 'receita' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="confirmacao_final" value="sim">
+                    <button type="submit" class="btn btn-success">Sim, confirmar</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
 {% endblock %}
