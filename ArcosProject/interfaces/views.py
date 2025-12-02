@@ -14,6 +14,10 @@ def dashboard_view(request):
 def apuracao_view(request):
     return render(request, 'apuracao.html', {'title': 'Apuração Assistida'})
 
+# 5. Página Marota
+def operacoes_view(request):
+    return render(request, 'operacoes.html', {'title': 'Minhas Operações de Consumo Atualizadas'})
+
 # 4. Modal/Página de Pagamento
 def pagamento_view(request):
     # 1. Recupera o valor da sessão. Se não tiver (acesso direto), assume 0.
