@@ -6,8 +6,14 @@
     <h1>Minhas Operações de Consumo</h1>
     <p>Apuração assistida do saldo da CBS no período de apuração, que poderá ser ajustada pelo contribuinte na forma e no prazo previstos pelo regulamento.</p>
 
+    <form action="{% url 'apuracao' %}" method="POST">
+        {% csrf_token %}
+
+  <label for="myfile">Importar XML:</label>
+  <input type="file" id="myfile" name="myfile"><br><br>
+  <input type="submit">
+    </form>
     <div style="text-align: right; margin-bottom: 10px;">
-        <button class="btn">Exportar CSV</button>
         <span>Filtro e Configurações de Exibição (Ícones)</span>
     </div>
 

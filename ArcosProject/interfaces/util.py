@@ -21,3 +21,11 @@ def valida_cnpj(cnpj: int) -> bool:
             validacao = True
 
     return validacao
+
+# Função auxiliar para formatar moeda no padrão BRL (R$ 1.000,00)
+def formatar_brl(valor):
+    try:
+        val = float(valor)
+        return f"R$ {val:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    except:
+        return "R$ 0,00"

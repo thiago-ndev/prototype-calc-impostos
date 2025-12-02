@@ -26,40 +26,88 @@
     <div class="grid-2">
         <div class="field-group">
             <label class="field-title">Receita</label>
-            <div class="data-card">[Valor de Receita]</div>
+            <div class="data-card">R$ 1.000.000,00</div>
         </div>
         <div class="field-group">
             <label class="field-title">Valores Corretagem</label>
-            <div class="data-card">[Valor de Corretagem]</div>
+            <div class="data-card">R$ 90.000,00</div>
         </div>
         <div class="field-group">
             <label class="field-title">Sinistros</label>
-            <div class="data-card">[Valor de Sinistros]</div>
+            <div class="data-card">R$ 350.000,00</div>
         </div>
         <div class="field-group">
-            <label class="field-title">Base de Cálculo</label>
-            <div class="data-card">[Valor de Base de Cálculo]</div>
-        </div>
-        <div class="field-group">
-            <label class="field-title">Alíquota (%)</label>
-            <div class="data-card">[Valor de Alíquota]</div>
-        </div>
+        <label class="field-title">Base de Cálculo</label>
+        <div class="data-card">R$ 560.000,00</div>
     </div>
 
-    <div class="grid-2" style="margin-top: 20px;">
-        <div class="field-group" style="background-color: #ff8b94;">
-            <label class="field-title">Total de Débitos</label>
-            <div class="data-card">[Valor Total de Débitos]</div>
-        </div>
-        <div class="field-group" style="background-color: #90d2d8;">
-            <label class="field-title">Total de Créditos</label>
-            <div class="data-card">[Resultado R$ 2.200,00 C]</div>
-        </div>
-        <div class="field-group" style="background-color: #d4edda;">
-            <label class="field-title">IVA a Pagar / Resultado do Período</label>
-            <div class="data-card">[Resultado R$ 2.200,00 C]</div>
+    <div class="field-group">
+        <label class="field-title">Alíquota (%)</label>
+        <div class="data-card">
+            <input type="number"
+                   step="0.01"
+                   min="0"
+                   max="100"
+                   id="input-aliquota"
+                   oninput="calcularValores()"
+                   name="aliquota"
+                   placeholder="0,00"
+                   style="border: none; background: transparent; width: 100%; font-size: 1rem;">
         </div>
     </div>
+</div>
+
+<div class="grid-2" style="margin-top: 20px;">
+
+    <div class="field-group" style="background-color: #ff8b94;">
+        <label class="field-title">Total de Débitos</label>
+        <div class="data-card" id="resultado-debitos">R$ 0,00</div>
+    </div>
+
+    <div class="field-group" style="background-color: #90d2d8;">
+        <label class="field-title">Total de Créditos</label>
+        <div class="data-card">R$ 15.000,00</div>
+    </div>
+
+    <div class="field-group" style="background-color: #d4edda;">
+        <label class="field-title">IVA a Pagar / Resultado do Período</label>
+        <div class="data-card" id="resultado-iva" style="font-weight: bold;">R$ -15.000,00</div>
+    </div>
+</div>
+
+<script>
+    function calcularValores() {
+        // 1. Definir os valores fixos (simulados)
+        const baseCalculo = 560000.00;
+        const totalCreditos = 15000.00;
+
+        // 2. Pegar o valor que o usuário digitou
+        let aliquota = parseFloat(document.getElementById('input-aliquota').value);
+
+        // Se o campo estiver vazio ou não for número, considera 0
+        if (isNaN(aliquota)) {
+            aliquota = 0;
+        }
+
+        // 3. Matemática
+        // Total de Débitos = Base * (Alíquota / 100)
+        const totalDebitos = baseCalculo * (aliquota / 100);
+
+        // IVA a Pagar = Débitos - Créditos
+        const ivaPagar = totalDebitos - totalCreditos;
+
+        // 4. Atualizar na tela com formatação Brasileira (R$ 1.000,00)
+        document.getElementById('resultado-debitos').innerText = formatarMoeda(totalDebitos);
+
+        // Lógica visual extra: se for negativo, mostra que é Saldo Credor (opcional)
+        document.getElementById('resultado-iva').innerText = formatarMoeda(ivaPagar);
+    }
+
+    // Função auxiliar para deixar bonito (R$)
+    function formatarMoeda(valor) {
+        return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+</script>
 
     <hr>
 
@@ -67,19 +115,18 @@
 
     <h3>Portal RT</h3>
     <div class="grid-2">
-        <div class="field-group"><label class="field-title">Total de Créditos</label><div class="data-card">[Valor Total de Créditos]</div></div>
-        <div class="field-group"><label class="field-title">Não Apropriados</label><div class="data-card">[Valor Não Apropriados]</div></div>
-        <div class="field-group"><label class="field-title">Apropriados</label><div class="data-card">[Valor Apropriados]</div></div>
-        <div class="field-group"><label class="field-title">Utilizados</label><div class="data-card">[Valor Utilizados]</div></div>
-        <div class="field-group"><label class="field-title">Não Utilizados</label><div class="data-card">[Valor Não Utilizados]</div></div>
-        <div class="field-group"><label class="field-title">Créditos Utilizados</label><div class="data-card">[Valor Créditos Utilizados]</div></div>
+        <div class="field-group"><label class="field-title">Total de Créditos</label><div class="data-card">R$ 35.000,00</div></div>
+        <div class="field-group"><label class="field-title">Não Apropriados</label><div class="data-card">R$ 15.000,00</div></div>
+        <div class="field-group"><label class="field-title">Apropriados</label><div class="data-card">R$ 20.000,00</div></div>
+        <div class="field-group"><label class="field-title">Utilizados</label><div class="data-card">R$ 15.000,00</div></div>
+        <div class="field-group"><label class="field-title">Não Utilizados</label><div class="data-card">R$ 5.000,00</div></div>
     </div>
 
     <h3>Captura (Informações Complementares)</h3>
     <div class="grid-2">
-        <div class="field-group"><label class="field-title">Total de Créditos</label><div class="data-card">35k</div></div>
-        <div class="field-group"><label class="field-title">Créditos do Mês</label><div class="data-card">25k</div></div>
-        <div class="field-group"><label class="field-title">Meses Anteriores</label><div class="data-card">10k</div></div>
+        <div class="field-group"><label class="field-title">Total de Créditos</label><div class="data-card">R$ 35.000,00</div></div>
+        <div class="field-group"><label class="field-title">Créditos do Mês</label><div class="data-card">R$ 25.000,00</div></div>
+        <div class="field-group"><label class="field-title">Meses Anteriores</label><div class="data-card">R$ 10.000,00</div></div>
     </div>
 
     <hr>
@@ -88,39 +135,74 @@
     <div class="grid-2">
         <div class="field-group">
             <label class="field-title">Enviado para Período Seguinte</label>
-            <div class="data-card">Não Utilizados</div>
+            <div class="data-card">R$ 5.000,00</div>
         </div>
         <div class="field-group">
-            <label class="field-title">Enviado para Ressarcimento</label>
-            <div class="data-card">R$ 1.200,00 C</div>
+        <label class="field-title">Enviado para Ressarcimento</label>
+        <div class="data-card">R$ 5.000,00</div>
+
+        <form action="{% url 'receita' %}" method="POST">
+            {% csrf_token %}
+
+            <input type="hidden" name="aliquota_envio" id="hidden_aliquota">
+
+            <button type="submit" class="btn btn-success" style="margin-top: 10px;">Enviar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function calcularValores() {
+        const baseCalculo = 560000.00;
+        const totalCreditos = 15000.00;
+        let aliquota = parseFloat(document.getElementById('input-aliquota').value);
+
+        if (isNaN(aliquota)) { aliquota = 0; }
+
+        // Sincroniza com o input hidden do formulário "Enviar"
+        if(document.getElementById('hidden_aliquota')) {
+            document.getElementById('hidden_aliquota').value = aliquota;
+        }
+
+        const totalDebitos = baseCalculo * (aliquota / 100);
+        const ivaPagar = totalDebitos - totalCreditos;
+
+        document.getElementById('resultado-debitos').innerText = formatarMoeda(totalDebitos);
+        document.getElementById('resultado-iva').innerText = formatarMoeda(ivaPagar);
+    }
+
+    function formatarMoeda(valor) {
+        return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    // (Opcional) Se a página recarregou com valor vindo do Python (caso do modal aberto), preencher o visual
+    window.onload = function() {
+        {% if aliquota_informada %}
+            document.getElementById('input-aliquota').value = "{{ aliquota_informada }}";
+            calcularValores(); // Roda o cálculo para atualizar os totais visuais
+        {% endif %}
+    }
+</script>
+
+{% if exibir_modal_confirmacao %}
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+
+    <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; text-align: center; border: 2px solid #106f36;">
+
+        <h3 style="color: #333;">Confirmação de Envio</h3>
+        <p>Valor calculado a Pagar: <strong>{{ iva_formatado }}</strong></p>
+        <p>Deseja realmente enviar os dados para a Receita Federal?</p>
+
+        <div style="margin-top: 20px; display: flex; gap: 15px; justify-content: center;">
+            <a href="{% url 'apuracao' %}" class="btn btn-danger" style="text-decoration: none;">Não</a>
 
             <form action="{% url 'receita' %}" method="POST">
-        {% csrf_token %}
-            <button type="submit" class="btn btn-success" style="margin-top: 10px;">Enviar</button>
+                {% csrf_token %}
+                <input type="hidden" name="confirmacao_final" value="sim">
+                <input type="hidden" name="iva_pagar_final" value="{{ iva_calculado }}">
+                <button type="submit" class="btn btn-success">Sim, confirmar</button>
             </form>
         </div>
     </div>
-
-    {% if exibir_modal_confirmacao %}
-        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
-
-        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; text-align: center; border: 2px solid #106f36;">
-
-            <h3 style="color: #333;">Confirmação de Envio</h3>
-            <p>Deseja realmente enviar os dados para a Receita Federal?</p>
-            <p style="font-size: 0.9em; color: #666;">Essa ação levará para a tela de pagamento.</p>
-
-            <div style="margin-top: 20px; display: flex; gap: 15px; justify-content: center;">
-
-                <a href="{% url 'apuracao' %}" class="btn btn-danger" style="text-decoration: none;">Não</a>
-
-                <form action="{% url 'receita' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="confirmacao_final" value="sim">
-                    <button type="submit" class="btn btn-success">Sim, confirmar</button>
-                </form>
-            </div>
-        </div>
-    {% endif %}
-
+{% endif %}
 {% endblock %}

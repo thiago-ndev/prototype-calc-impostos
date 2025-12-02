@@ -16,11 +16,29 @@ def apuracao_view(request):
 
 # 4. Modal/Página de Pagamento
 def pagamento_view(request):
-    return render(request, 'pagamento.html', {'title': 'Débitos para Pagamento'})
+    # 1. Recupera o valor da sessão. Se não tiver (acesso direto), assume 0.
+    iva_total = float(request.session.get('iva_a_pagar', 0))
+
+    # 2. Faz os cálculos das porcentagens
+    # Documentos Fiscais: 1001 (20%), 1002 (13%), 1003 (35%), 1004 (17%), 1005 (15%)
+    # Soma das porcentagens = 100%
+
+    contexto = {
+        'title': 'Débitos para Pagamento',
+        'valor_total_pagar': formatar_brl(iva_total),
+        # Calculando e formatando cada item
+        'doc_1001': formatar_brl(iva_total * 0.20),
+        'doc_1002': formatar_brl(iva_total * 0.13),
+        'doc_1003': formatar_brl(iva_total * 0.35),
+        'doc_1004': formatar_brl(iva_total * 0.17),
+        'doc_1005': formatar_brl(iva_total * 0.15),
+    }
+
+    return render(request, 'pagamento.html', contexto)
 
 
 def cadastra_cnpj(request):
-    # Verificamos se o método é POST (alguém clicou no botão)
+    # Verificamos se alguém clicou no botão (se é POST)
     if request.method == 'POST':
         cnpj_raw = request.POST.get('cnpj')  # Pega o valor do input pelo 'name="cnpj"'
 
@@ -50,22 +68,42 @@ def cadastra_cnpj(request):
     # Se tentarem acessar /cadastro/ direto sem enviar formulário, manda pro login
     return redirect('login')
 
+
 def enviar_receita(request):
     if request.method == 'POST':
-        # VERIFICAÇÃO: O usuário já confirmou no modal?
-        # Se o formulário enviado tiver o campo hidden 'confirmacao_final' == 'sim'
+        # CASO 2: O usuário clicou em "Sim, confirmar" no Modal
         if request.POST.get('confirmacao_final') == 'sim':
-            # Lógica de negócio (salvar no banco, etc) iria aqui
-            return redirect('pagamento') # Vai para pagamento.html
+            # Recuperamos o valor calculado que passamos via hidden input
+            iva_final = request.POST.get('iva_pagar_final')
 
-        # FASE 1: O usuário apenas clicou em "Enviar" na tela principal.
-        # Renderizamos a página de apuração novamente, mas ativando o modal.
+            # SALVAMOS NA SESSÃO (Memória temporária do navegador/servidor)
+            request.session['iva_a_pagar'] = iva_final
+
+            return redirect('pagamento')
+
+        # CASO 1: O usuário clicou em "Enviar" na tela principal (Vem com a alíquota)
+        aliquota = request.POST.get('aliquota_envio')
+
+        # Recalculamos aqui no Python para ter segurança dos dados
+        try:
+            base_calculo = 560000.00
+            total_creditos = 15000.00
+            aliq_float = float(aliquota) if aliquota else 0
+
+            total_debitos = base_calculo * (aliq_float / 100)
+            iva_pagar = total_debitos - total_creditos
+        except ValueError:
+            iva_pagar = 0.0
+
+        # Renderiza a mesma página, mas agora com o Modal ativado e os valores pré-carregados
         return render(request, 'apuracao.html', {
             'title': 'Apuração Assistida',
-            'exibir_modal_confirmacao': True # <--- Essa variável ativa a janela no HTML
+            'exibir_modal_confirmacao': True,
+            'iva_calculado': iva_pagar,  # Envia o valor bruto (float) para o formulário oculto
+            'iva_formatado': formatar_brl(iva_pagar),  # Envia formatado para exibir no texto
+            'aliquota_informada': aliquota  # Devolve a alíquota para o input não ficar vazio
         })
 
-    # Se tentar acessar via GET, volta para o dashboard ou apuração limpa
     return redirect('apuracao')
 
 # Informe a receita financeira dos ativos garantidores(provisões técnicas).

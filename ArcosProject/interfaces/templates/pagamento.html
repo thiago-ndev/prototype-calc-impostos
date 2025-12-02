@@ -20,12 +20,12 @@
 
     <h2>Resumo de Valores</h2>
     <div style="display: flex; gap: 20px; justify-content: space-between;">
-        <div class="field-group"><label class="field-title">Valor Total de Principal</label><div class="data-card">IVA a Pagar / Resultado do <Período></Período></div></div>
+        <div class="field-group"><label class="field-title">Valor Total de Principal</label><div class="data-card">{{ valor_total_pagar }}</div></div>
         <div class="field-group"><label class="field-title">Valor Total de Juros</label><div class="data-card">R$ 0,00</div></div>
         <div class="field-group"><label class="field-title">Valor Total de Multa</label><div class="data-card">R$ 0,00</div></div>
-        <div class="field-group" style="background-color: #d4edda;"><label class="field-title">Valor Total a Pagar</label><div class="data-card">R$ 2.000,00</div></div>
+        <div class="field-group" style="background-color: #d4edda;"><label class="field-title">Valor Total a Pagar</label><div class="data-card">{{ valor_total_pagar }}</div></div>
     </div>
-    
+
     <hr>
 
     <h2>Detalhamento do Débito</h2>
@@ -41,14 +41,43 @@
         </thead>
         <tbody>
             <tr>
-                <td>31231206...</td>
-                <td>R$ 2.000,00</td>
+                <td>1001 </td>
+                <td>{{ doc_1001 }}</td>
                 <td>-</td>
                 <td>-</td>
-                <td>R$ 2.000,00</td>
+                <td>{{ doc_1001 }}</td>
+            </tr>
+            <tr>
+                <td>1002 </td>
+                <td>{{ doc_1002 }}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>{{ doc_1002 }}</td>
+            </tr>
+            <tr>
+                <td>1003 </td>
+                <td>{{ doc_1003 }}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>{{ doc_1003 }}</td>
+            </tr>
+            <tr>
+                <td>1004 </td>
+                <td>{{ doc_1004 }}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>{{ doc_1004 }}</td>
+            </tr>
+            <tr>
+                <td>1005 </td>
+                <td>{{ doc_1005 }}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>{{ doc_1005 }}</td>
             </tr>
         </tbody>
     </table>
+
     <div style="margin-top: 15px; display: flex; justify-content: space-between;">
         <span>Exibir 5 de 1-1 itens</span>
         <span>Página 1</span>
