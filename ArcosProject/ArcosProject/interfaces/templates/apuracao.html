@@ -80,7 +80,7 @@
 
         <div class="field-group" style="background-color: #d4edda;">
             <label class="field-title">Apropriados</label>
-            <div class="data-card" id="val-apropriados">R$ 20.000,00</div>
+            <div class="data-card" id="val-apropriados" data-valor="20000">R$ 20.000,00</div>
         </div>
 
         <div class="field-group" style="background-color: #90d2d8;">
@@ -113,7 +113,7 @@
     <div class="grid-2">
         <div class="field-group">
             <label class="field-title">Enviar para Período Seguinte</label>
-            <div class="data-card" id="val-ressarcimento2">R$ 5.000,00</div>
+            <div class="data-card" id="val-nao-utilizados">R$ 5.000,00</div>
 
             <form action="{% url 'receita' %}" method="POST">
                 {% csrf_token %}
@@ -124,7 +124,7 @@
         </div>
         <div class="field-group">
             <label class="field-title">Enviar para Ressarcimento</label>
-            <div class="data-card" id="val-ressarcimento">R$ 5.000,00</div>
+            <div class="data-card">R$ 5.000,00</div>
             <button class="btn-gray" style="margin-top: 10px; background-color: gray; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px;">Enviar</button>
         </div>
     </div>
@@ -134,6 +134,7 @@
         return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
 
+    // Cálculo Principal (Débitos e IVA)
     function calcularValores() {
         const baseCalculo = 560000.00;
         const totalCreditos = 15000.00;
@@ -143,44 +144,47 @@
         if (isNaN(aliquota)) { aliquota = 0; }
         if (isNaN(receitaExtra)) { receitaExtra = 0; }
 
+        // Atualiza inputs hidden para envio
         if(document.getElementById('hidden_aliquota')) document.getElementById('hidden_aliquota').value = aliquota;
         if(document.getElementById('hidden_receita')) document.getElementById('hidden_receita').value = receitaExtra;
 
-        // ATUALIZADO: Total Débitos influenciado pela (receita * alíquota)
-        const baseTotal = baseCalculo + receitaExtra;
-        const totalDebitos = baseTotal * (aliquota / 100);
+        // Débitos Operacionais (Base Fixa * Alíquota)
+        const totalDebitos = baseCalculo * (aliquota / 100);
 
+        // IVA Operacional (Débitos - Créditos)
         const ivaPagar = totalDebitos - totalCreditos;
 
         document.getElementById('resultado-debitos').innerText = formatarMoeda(totalDebitos);
         document.getElementById('resultado-iva').innerText = formatarMoeda(ivaPagar);
     }
 
+    // Novo Cálculo de Créditos (Portal RT)
     function calcularCreditos() {
+        // Pega o valor fixo de Apropriados (20.000)
         const apropriados = 20000.00;
+
+        // Pega o valor digitado em Utilizados
         let utilizados = parseFloat(document.getElementById('input-utilizados').value);
         if (isNaN(utilizados)) { utilizados = 0; }
 
+        // Fórmula: Não Utilizados = Apropriados - Utilizados
         const naoUtilizados = apropriados - utilizados;
 
-        // Atualiza o campo 'Não Utilizados'
+        // Atualiza a tela
         document.getElementById('val-nao-utilizados').innerText = formatarMoeda(naoUtilizados);
 
-        // ATUALIZADO: Atualiza também o campo 'Enviar para Ressarcimento' com o mesmo valor
-        document.getElementById('val-ressarcimento').innerText = formatarMoeda(naoUtilizados);
-        document.getElementById('val-ressarcimento2').innerText = formatarMoeda(naoUtilizados);
-
-        // Estilização condicional de erro
-        const elNaoUtil = document.getElementById('val-nao-utilizados').parentElement;
+        // Muda cor se ficar negativo para alertar
+        const el = document.getElementById('val-nao-utilizados').parentElement;
         if (naoUtilizados < 0) {
-            elNaoUtil.style.backgroundColor = '#dc3545';
-            elNaoUtil.style.color = 'white';
+            el.style.backgroundColor = '#dc3545'; // Vermelho erro
+            el.style.color = 'white';
         } else {
-            elNaoUtil.style.backgroundColor = '#ff8b94';
-            elNaoUtil.style.color = 'black';
+            el.style.backgroundColor = '#ff8b94'; // Cor original
+            el.style.color = 'black';
         }
     }
 
+    // Inicialização
     window.onload = function() {
         {% if aliquota_informada %}
             document.getElementById('input-aliquota').value = "{{ aliquota_informada }}";
@@ -199,7 +203,7 @@
     <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
     <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; text-align: center; border: 2px solid #106f36;">
         <h3 style="color: #333;">Confirmação de Envio</h3>
-        <p>Valor calculado a Pagar: <strong>{{ iva_formatado }}</strong></p>
+        <p>Valor calculado a Pagar (Operacional): <strong>{{ iva_formatado }}</strong></p>
         <p>Deseja realmente enviar os dados para a Receita Federal?</p>
         <div style="margin-top: 20px; display: flex; gap: 15px; justify-content: center;">
             <a href="{% url 'apuracao' %}" class="btn btn-danger" style="text-decoration: none;">Não</a>
