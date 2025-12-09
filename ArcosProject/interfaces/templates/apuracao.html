@@ -32,7 +32,7 @@
             <div class="data-card">
                 <input type="number"
                        id="input-receita"
-                       oninput="calcularValores()"
+                       oninput="atualizarTudo()"
                        name="receita"
                        placeholder="0,00"
                        style="border: none; background: transparent; width: 100%; font-size: 1rem;">
@@ -42,7 +42,7 @@
         <div class="field-group">
             <label class="field-title">Alíquota (%)</label>
             <div class="data-card">
-                <select id="input-aliquota" oninput="calcularValores()" name="aliquota" style="border: none; background: transparent; width: 100%; font-size: 1rem;">
+                <select id="input-aliquota" oninput="atualizarTudo()" name="aliquota" style="border: none; background: transparent; width: 100%; font-size: 1rem;">
                     <option value="10.85">10,85</option>
                     <option value="11">11,00</option>
                     <option value="11.15">11,15</option>
@@ -59,10 +59,12 @@
             <label class="field-title">Total de Débitos</label>
             <div class="data-card" id="resultado-debitos">R$ 0,00</div>
         </div>
+
         <div class="field-group" style="background-color: #90d2d8;">
             <label class="field-title">Total de Créditos</label>
-            <div class="data-card">R$ 15.000,00</div>
+            <div class="data-card" id="val-total-creditos-resumo">R$ 15.000,00</div>
         </div>
+
         <div class="field-group" style="background-color: #d4edda;">
             <label class="field-title">IVA a Pagar / Resultado do Período</label>
             <div class="data-card" id="resultado-iva" style="font-weight: bold;">R$ -15.000,00</div>
@@ -88,7 +90,7 @@
             <div class="data-card">
                 <input type="number"
                        id="input-utilizados"
-                       oninput="calcularCreditos()"
+                       oninput="atualizarTudo()"
                        value="15000"
                        style="border: none; background: transparent; width: 100%; font-size: 1rem;">
             </div>
@@ -113,12 +115,13 @@
     <div class="grid-2">
         <div class="field-group">
             <label class="field-title">Enviar para Período Seguinte</label>
-            <div class="data-card" id="val-ressarcimento2">R$ 5.000,00</div>
+            <div class="data-card" id="val-ressarcimento1">R$ 5.000,00</div>
 
             <form action="{% url 'receita' %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="aliquota_envio" id="hidden_aliquota">
                 <input type="hidden" name="receita" id="hidden_receita">
+                <input type="hidden" name="utilizados" id="hidden_utilizados">
                 <button type="submit" class="btn btn-success" style="margin-top: 10px;">Enviar</button>
             </form>
         </div>
@@ -134,26 +137,10 @@
         return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
 
-    function calcularValores() {
-        const baseCalculo = 560000.00;
-        const totalCreditos = 15000.00;
-        let aliquota = parseFloat(document.getElementById('input-aliquota').value);
-        let receitaExtra = parseFloat(document.getElementById('input-receita').value);
-
-        if (isNaN(aliquota)) { aliquota = 0; }
-        if (isNaN(receitaExtra)) { receitaExtra = 0; }
-
-        if(document.getElementById('hidden_aliquota')) document.getElementById('hidden_aliquota').value = aliquota;
-        if(document.getElementById('hidden_receita')) document.getElementById('hidden_receita').value = receitaExtra;
-
-        // ATUALIZADO: Total Débitos influenciado pela (receita * alíquota)
-        const baseTotal = baseCalculo + receitaExtra;
-        const totalDebitos = baseTotal * (aliquota / 100);
-
-        const ivaPagar = totalDebitos - totalCreditos;
-
-        document.getElementById('resultado-debitos').innerText = formatarMoeda(totalDebitos);
-        document.getElementById('resultado-iva').innerText = formatarMoeda(ivaPagar);
+    // Função Mestra que chama tudo
+    function atualizarTudo() {
+        calcularCreditos(); // Primeiro calcula os créditos (pois o TotalCreditos depende do Utilizados)
+        calcularValores();  // Depois calcula o IVA (pois depende do TotalCreditos atualizado)
     }
 
     function calcularCreditos() {
@@ -163,14 +150,15 @@
 
         const naoUtilizados = apropriados - utilizados;
 
-        // Atualiza o campo 'Não Utilizados'
+        // Atualiza campos de "Não Utilizados" e "Ressarcimento"
         document.getElementById('val-nao-utilizados').innerText = formatarMoeda(naoUtilizados);
-
-        // ATUALIZADO: Atualiza também o campo 'Enviar para Ressarcimento' com o mesmo valor
         document.getElementById('val-ressarcimento').innerText = formatarMoeda(naoUtilizados);
-        document.getElementById('val-ressarcimento2').innerText = formatarMoeda(naoUtilizados);
+        document.getElementById('val-ressarcimento1').innerText = formatarMoeda(naoUtilizados);
 
-        // Estilização condicional de erro
+        // Atualiza o Input Hidden para envio ao Backend
+        if(document.getElementById('hidden_utilizados')) document.getElementById('hidden_utilizados').value = utilizados;
+
+        // Estilização
         const elNaoUtil = document.getElementById('val-nao-utilizados').parentElement;
         if (naoUtilizados < 0) {
             elNaoUtil.style.backgroundColor = '#dc3545';
@@ -181,7 +169,40 @@
         }
     }
 
+    function calcularValores() {
+        const baseCalculo = 560000.00;
+
+        // ATUALIZADO: Total de Créditos agora vem direto do input 'Utilizados'
+        let utilizados = parseFloat(document.getElementById('input-utilizados').value);
+        if (isNaN(utilizados)) { utilizados = 0; }
+        const totalCreditos = utilizados;
+
+        // Atualiza visualmente o Total de Créditos no Resumo Superior
+        document.getElementById('val-total-creditos-resumo').innerText = formatarMoeda(totalCreditos);
+
+        // Pega inputs de Alíquota e Receita
+        let aliquota = parseFloat(document.getElementById('input-aliquota').value);
+        let receitaExtra = parseFloat(document.getElementById('input-receita').value);
+
+        if (isNaN(aliquota)) { aliquota = 0; }
+        if (isNaN(receitaExtra)) { receitaExtra = 0; }
+
+        if(document.getElementById('hidden_aliquota')) document.getElementById('hidden_aliquota').value = aliquota;
+        if(document.getElementById('hidden_receita')) document.getElementById('hidden_receita').value = receitaExtra;
+
+        // Cálculo do IVA
+        const baseTotal = baseCalculo + receitaExtra;
+        const totalDebitos = baseTotal * (aliquota / 100);
+
+        // IVA = Débitos - Créditos (agora dinâmico baseados em Utilizados)
+        const ivaPagar = totalDebitos - totalCreditos;
+
+        document.getElementById('resultado-debitos').innerText = formatarMoeda(totalDebitos);
+        document.getElementById('resultado-iva').innerText = formatarMoeda(ivaPagar);
+    }
+
     window.onload = function() {
+        // Recupera valores vindos do backend (sessão/recarga)
         {% if aliquota_informada %}
             document.getElementById('input-aliquota').value = "{{ aliquota_informada }}";
         {% endif %}
@@ -190,8 +211,11 @@
             document.getElementById('input-receita').value = "{{ receita_informada }}";
         {% endif %}
 
-        calcularValores();
-        calcularCreditos();
+        {% if utilizados_informado %}
+            document.getElementById('input-utilizados').value = "{{ utilizados_informado }}";
+        {% endif %}
+
+        atualizarTudo();
     }
 </script>
 

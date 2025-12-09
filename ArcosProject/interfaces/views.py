@@ -12,40 +12,57 @@ def dashboard_view(request):
 
 
 def apuracao_view(request):
-    return render(request, 'apuracao.html', {'title': 'Apuração Assistida'})
+    # Tenta recuperar o valor de utilizados se já tiver sido salvo, para o input não voltar ao padrão
+    utilizados = request.session.get('utilizados', 15000)
+    return render(request, 'apuracao.html', {
+        'title': 'Apuração Assistida',
+        'utilizados_informado': utilizados
+    })
 
 
+
+# ATUALIZADO: Cálculo dinâmico para o Dashboard
 def operacoes_view(request):
-    return render(request, 'operacoes.html', {'title': 'Minhas Operações de Consumo Atualizadas'})
+    # Valores Padrão (Simulação)
+    nao_apropriados = 15000.00
+    apropriados = 20000.00
+
+    # Tenta pegar 'utilizados' da sessão, senão usa padrão 15000
+    try:
+        utilizados = float(request.session.get('utilizados', 15000))
+    except (ValueError, TypeError):
+        utilizados = 15000.00
+
+    # Lógica do Usuário: Valor do Resultado = Não Apropriados + Não Utilizados
+    nao_utilizados = apropriados - utilizados
+    resultado_janeiro = nao_apropriados + nao_utilizados
+
+    # Se o valor for positivo, formata com 'C' (Credor). Se negativo, 'D' (Devedor)
+    letra = "C" if resultado_janeiro >= 0 else "D"
+    resultado_formatado = f"{formatar_brl(abs(resultado_janeiro))} {letra}"
+
+    return render(request, 'operacoes.html', {
+        'title': 'Minhas Operações de Consumo',
+        'resultado_jan': resultado_formatado  # Passamos para o template
+    })
 
 
 def pagamento_view(request):
-    # 1. Recupera valores da sessão
-    # Nota: Agora 'iva_a_pagar' JÁ INCLUI o imposto sobre a receita financeira (calculado em enviar_receita)
     iva_total = float(request.session.get('iva_a_pagar', 0))
     aliquota = float(request.session.get('aliquota', 0))
     receita = float(request.session.get('receita', 0))
 
-    # 2. Cálculos para detalhamento
-    # Débito puro sobre a base fixa (560k)
     debito_puro = 560000 * (aliquota / 100)
-
-    # Imposto sobre a Receita Financeira (apenas para exibição na linha da tabela)
     imposto_receita_financeira = receita * (aliquota / 100)
 
     contexto = {
         'title': 'Débitos para Pagamento',
-        # O valor total a pagar é o próprio IVA total que veio da apuração
         'valor_total_pagar': formatar_brl(iva_total),
-
-        # Itens da Apólice (baseados no débito operacional puro)
         'doc_1001': formatar_brl(debito_puro * 0.20),
         'doc_1002': formatar_brl(debito_puro * 0.13),
         'doc_1003': formatar_brl(debito_puro * 0.35),
         'doc_1004': formatar_brl(debito_puro * 0.17),
         'doc_1005': formatar_brl(debito_puro * 0.15),
-
-        # Linha da Receita Financeira
         'receita_financeira': formatar_brl(imposto_receita_financeira)
     }
 
@@ -63,7 +80,6 @@ def cadastra_cnpj(request):
             if valida_cnpj(cnpj_int):
                 return redirect('dashboard')
             else:
-                print("CNPJ Inválido")
                 return render(request, 'login.html', {'title': 'Login', 'error': 'CNPJ Inválido'})
         except ValueError:
             return render(request, 'login.html', {'title': 'Login'})
@@ -72,29 +88,32 @@ def cadastra_cnpj(request):
 
 def enviar_receita(request):
     if request.method == 'POST':
-        # CASO 2: Confirmação final no Modal
         if request.POST.get('confirmacao_final') == 'sim':
             iva_final = request.POST.get('iva_pagar_final')
             request.session['iva_a_pagar'] = iva_final
             return redirect('pagamento')
 
-        # CASO 1: Clicou em "Enviar" na tela (preparação)
+        # CASO 1: Preparação do Modal
         aliquota = request.POST.get('aliquota_envio')
         receita = request.POST.get('receita')
+        utilizados = request.POST.get('utilizados')  # Novo campo recuperado
 
+        # SALVA NA SESSÃO
         request.session['aliquota'] = aliquota
         request.session['receita'] = receita
+        request.session['utilizados'] = utilizados  # Salva para o Dashboard usar
 
-        # Recálculo para o Modal (Backend)
         try:
             base_calculo = 560000.00
-            total_creditos = 15000.00
+            # ATUALIZADO: Total Créditos vem do input Utilizados
+            total_creditos = float(utilizados) if utilizados else 0
+
             aliq_float = float(aliquota) if aliquota else 0
             rec_float = float(receita) if receita else 0
 
-            # ATUALIZADO: Total Débitos inclui a Receita Financeira
             total_debitos = (base_calculo + rec_float) * (aliq_float / 100)
 
+            # ATUALIZADO: IVA = Débitos - Utilizados
             iva_pagar = total_debitos - total_creditos
         except ValueError:
             iva_pagar = 0.0
@@ -105,7 +124,8 @@ def enviar_receita(request):
             'iva_calculado': iva_pagar,
             'iva_formatado': formatar_brl(iva_pagar),
             'aliquota_informada': aliquota,
-            'receita_informada': receita
+            'receita_informada': receita,
+            'utilizados_informado': utilizados
         })
 
     return redirect('apuracao')
