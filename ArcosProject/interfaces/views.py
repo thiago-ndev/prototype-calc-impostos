@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from datetime import datetime
 from .util import *
 import re
 
@@ -137,3 +139,35 @@ def enviar_receita(request):
         })
 
     return redirect('apuracao')
+
+def api_notas_fiscais(request):
+    """
+    Retorna uma lista de notas fiscais em formato JSON para o Frontend Vue.
+    Simula uma consulta ao banco de dados.
+    """
+    # Recupera parâmetros da URL (ex: ?inicio=2025-01-01&fim=2025-01-31)
+    data_inicial = request.GET.get('inicio')
+    data_final = request.GET.get('fim')
+
+    # Simulação de dados (Backend Python gerando a lista)
+    lista_notas = []
+    for i in range(20): # Gerar 20 notas simuladas
+        valor_base = 1000 + (i * 10)
+        nota = {
+            'data_emissao': '2025-01-10', # Poderia ser dinâmico
+            'data_captura': datetime.now().strftime('%Y-%m-%d'),
+            'cnpj': f'12.345.678/0001-{i:02d}',
+            'razao_social': f'Prestador Python Django {i + 1}', # Mudei o nome para você ver que vem do Django
+            'valor_bruto': valor_base,
+            'irrf': valor_base * 0.015,
+            'inss': valor_base * 0.02,
+            'iss': valor_base * 0.05,
+            'ibs': valor_base * 0.1,  # Reforma tributária chegando!
+            'cbs': valor_base * 0.12,
+            'municipio': 'Rio de Janeiro',
+            'uf': 'RJ',
+        }
+        lista_notas.append(nota)
+
+    # Retorna como JSON. 'safe=False' permite retornar listas, não só dicionários.
+    return JsonResponse({'data': lista_notas}, safe=False)

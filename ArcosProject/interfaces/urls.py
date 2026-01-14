@@ -11,5 +11,7 @@ urlpatterns = [
     path('operacoes/', views.operacoes_view, name='operacoes'),
     path('portal/', views.portal_view, name='portal'),
     path('hub/', views.hub_view, name='hub'),
-    path('hubnew/', views.hubnew_view, name='hubnew')
+    path('hubnew/', views.hubnew_view, name='hubnew'),
+    path('api/notas/', views.api_notas_fiscais, name='api_notas'),
+
 ]
