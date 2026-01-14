@@ -6,6 +6,14 @@ import re
 def login_view(request):
     return render(request, 'login.html', {'title': 'Login'})
 
+def portal_view(request):
+    return render(request, 'portal.html', {'title': 'Portal'})
+
+def hub_view(request):
+    return render(request, 'hub.html', {'title': 'Hub'})
+
+def hubnew_view(request):
+    return render(request, 'hubnew.html', {'title': 'Hubnew'})
 
 def dashboard_view(request):
     return render(request, 'dashboard.html', {'title': 'Minhas Operações de Consumo'})

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcos Tributos - Login Corporativo</title>
+    <style>
+        :root {
+            --arcos-green: #106f36;
+            --arcos-dark: #1a1a1a;
+            --arcos-light: #f4f7f9;
+        }
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Calibri', 'Arial', sans-serif;
+            background-color: var(--arcos-light);
+        }
+
+        /* Layout de Tela Dividida */
+        .container-login {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* Lado Esquerdo: Branding e Info */
+        .brand-section {
+            flex: 1;
+            background: linear-gradient(135deg, #000000 0%, var(--arcos-green) 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-section::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('https://img.freepik.com/free-photo/business-concept-with-graphic-holography_23-2149160929.jpg'); /* Exemplo de fundo */
+            background-size: cover;
+            background-blend-mode: overlay;
+            opacity: 0.1;
+        }
+
+        .brand-content {
+            z-index: 2;
+            max-width: 600px;
+        }
+
+        .brand-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .brand-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* Lado Direito: Formulário */
+        .login-section {
+            flex: 0 0 500px; /* Largura fixa */
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.05);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .logo-area {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box; /* Garante que o padding não estoure a largura */
+        }
+
+        .form-control:focus {
+            border-color: var(--arcos-green);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(16, 111, 54, 0.2);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--arcos-green);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            background-color: #0d5c2d;
+        }
+
+        .footer-login {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .footer-login a {
+            color: var(--arcos-green);
+            text-decoration: none;
+        }
+
+        /* Responsividade para Mobile */
+        @media (max-width: 900px) {
+            .container-login {
+                flex-direction: column;
+            }
+            .brand-section {
+                display: none; /* Oculta a parte visual em telas pequenas */
+            }
+            .login-section {
+                flex: 1;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-login">
+        <div class="brand-section">
+            <div class="brand-content">
+                <h1>Arcos Tributos</h1>
+                <p>Plataforma Integrada de Gestão Tributária e Compliance.</p>
+                <p>Acesse suas soluções de PIS/COFINS, IVA Dual e Gestão de Documentos Fiscais em um único ambiente seguro.</p>
+
+                <div style="margin-top: 40px; display: flex; gap: 20px;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3);">
+                        <strong>PSL Sompo</strong>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3);">
+                        <strong>IVA Dual</strong>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3);">
+                        <strong>NFe Hub</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-section">
+            <div class="login-card">
+                <div class="logo-area">
+                    <img src="img/onlylogo_arcosdev.png" alt="Logo Arcos" style="max-height: 80px;">
+                    <h2 style="color: #333; margin-top: 10px;">Acesso ao Sistema</h2>
+                </div>
+
+                <form action="/dashboard-hub" method="POST"> <div class="form-group">
+                        <label for="usuario">CNPJ ou E-mail Corporativo</label>
+                        <input type="text" id="usuario" class="form-control" placeholder="00.000.000/0000-00" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" class="form-control" placeholder="••••••••" required>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.9rem;">
+                        <label style="font-weight: normal; margin: 0;">
+                            <input type="checkbox"> Lembrar-me
+                        </label>
+                        <a href="#" style="color: var(--arcos-green);">Esqueceu a senha?</a>
+                    </div>
+
+                    <button type="submit" class="btn-login">Entrar na Plataforma</button>
+                </form>
+
+                <div class="footer-login">
+                    <p>&copy; 2026 Arcos Dev. Todos os direitos reservados.</p>
+                    <p>Precisa de suporte? <a href="#">Fale conosco</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
