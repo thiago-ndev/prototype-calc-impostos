@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Captura de Apólices - Arcos</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header>
+    <div class="logo">ARCOS <span>TRIBUTOS</span></div>
+</header>
+
+<div class="container">
+    <a href="{% url 'dere' %}" class="btn-back">← Voltar para DERE</a>
+
+    <h2>Captura de Apólices</h2>
+    <p>Importe a base de prêmios emitidos.</p>
+
+    <div class="nav-card" style="text-align: left;">
+        <div style="display: flex; gap: 10px; align-items: flex-end;">
+            <div class="form-group" style="flex-grow: 1;">
+                <label>Arquivo CSV (Apólices)</label>
+                <input type="file" id="fileInput" class="form-control" accept=".csv" style="background: #333; color: #fff; border: none;">
+            </div>
+            <button onclick="simularImportacao('apolice')" class="btn" style="margin-bottom: 1rem;">Processar Arquivo</button>
+        </div>
+    </div>
+
+    <div id="resultArea" style="display: none; margin-top: 2rem;">
+        <h3>Apólices Processadas</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nº Apólice</th>
+                    <th>Segurado</th>
+                    <th>Vigência Início</th>
+                    <th>Vigência Fim</th>
+                    <th>Prêmio Líquido</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaCorpo">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

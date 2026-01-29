@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Arcos Tributos - DERE</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header>
+    <div class="logo">ARCOS <span>TRIBUTOS</span></div>
+    <div class="user-menu">DERE - Seguradoras</div>
+</header>
+
+<div class="container">
+    <h1>Painel DERE (IBS/CBS)</h1>
+    <p>Selecione uma fonte de dados para capturar ou realize a apuração abaixo.</p>
+
+    <div class="nav-grid">
+        <div class="nav-card">
+            <h3>Balancetes</h3>
+            <p>Importar Plano de Contas SUSEP</p>
+            <a href="{% url 'captura-balancete' %}" class="btn btn-outline">Ir para Captura</a>
+        </div>
+        <div class="nav-card">
+            <h3>Apólices</h3>
+            <p>Capturar e Exibir Apólices</p>
+            <a href="{% url 'captura-apolices' %}" class="btn btn-outline">Ir para Captura</a>
+        </div>
+        <div class="nav-card">
+            <h3>Notas Fiscais (NFe)</h3>
+            <p>Corretagem e Sinistros</p>
+            <a href="{% url 'captura' %}" class="btn btn-outline">Gerenciar NFes</a>
+        </div>
+    </div>
+
+    <hr style="border-color: #333; margin: 3rem 0;">
+
+    <div class="apuracao-section">
+        <h2>Apuração Assistida</h2>
+        <div class="nav-card" style="text-align: left; border: none; background: transparent; padding: 0;">
+
+            <form id="formApuracao">
+                <div class="apuracao-grid">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Receita</label>
+                            <input type="text" class="form-control" value="R$ 1.000.000,00">
+                        </div>
+                        <div class="form-group">
+                            <label>Sinistros</label>
+                            <input type="text" class="form-control" value="R$ 350.000,00">
+                        </div>
+                        <div class="form-group">
+                            <label>Receita Financeira - Ativos Garantidores</label>
+                            <input type="text" class="form-control" value="0,00">
+                        </div>
+
+                        <div class="form-group card-total total-debito">
+                            <label style="color: #ff8a80;">Total de Débitos</label>
+                            <input type="text" class="form-control" value="R$ 60.760,00" style="font-weight: bold;">
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Valores Corretagem</label>
+                            <input type="text" class="form-control" value="R$ 90.000,00">
+                        </div>
+                        <div class="form-group">
+                            <label>Base de Cálculo</label>
+                            <input type="text" class="form-control" value="R$ 560.000,00">
+                        </div>
+                        <div class="form-group">
+                            <label>Alíquota (%)</label>
+                            <select class="form-control">
+                                <option>10,85</option>
+                                <option>26,50 (Padrão IBS/CBS)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group card-total total-credito">
+                            <label style="color: #80d8ff;">Total de Créditos</label>
+                            <input type="text" class="form-control" value="R$ 15.000,00" style="font-weight: bold;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label style="color: #69f0ae;">IVA a Pagar / Resultado do Período</label>
+                    <input type="text" class="form-control" value="R$ 45.760,00" style="background-color: #e8f5e9; color: #2e7d32; font-weight: bold; border: 2px solid #00e676;">
+                </div>
+
+                <div style="text-align: right; margin-top: 20px;">
+                    <button type="button" class="btn">Recalcular Tributos</button>
+                    <button type="button" class="btn btn-outline">Gerar Declaração</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

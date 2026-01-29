@@ -11,7 +11,10 @@ urlpatterns = [
     path('operacoes/', views.operacoes_view, name='operacoes'),
     path('portal/', views.portal_view, name='portal'),
     path('hub/', views.hub_view, name='hub'),
-    path('hubnew/', views.hubnew_view, name='hubnew'),
-    path('api/notas/', views.api_notas_fiscais, name='api_notas'),
+    path('captura/', views.captura_view, name='captura'),
+    path('notas/', views.notas_fiscais, name='notas'),
 
+    path('dere/', views.dere_view, name='dere'),
+    path('captura_balancete/', views.captura_balancete_view, name='captura-balancete'),
+    path('captura_apolices/', views.captura_apolices_view, name='captura-apolices'),
 ]

@@ -1,0 +1,123 @@
+:root {
+            --arcos-green: #106f36;
+            --arcos-hover: #0d5c2d;
+            --bg-color: #f4f7f9;
+        }
+        body { margin: 0; font-family: 'Calibri', sans-serif; background-color: var(--bg-color); }
+
+        /* Cabeçalho Global */
+        header {
+            background-color: #000;
+            color: white;
+            padding: 0 30px;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .systems-grid {
+    display: grid;
+    /* Define exatamente 2 colunas com larguras iguais */
+    grid-template-columns: repeat(2, 1fr);
+    /* Espaçamento entre os cards (ajuste conforme necessário) */
+    gap: 20px;
+}
+
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .logo-text { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }
+
+        /* Navegação do Topo (Requisito NFe) */
+        .top-nav a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        .top-nav a:hover { color: white; }
+        .top-nav a.active { color: white; font-weight: bold; border-bottom: 2px solid var(--arcos-green); padding-bottom: 22px; }
+
+        .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .user-avatar { width: 35px; height: 35px; background-color: var(--arcos-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+        /* Conteúdo Principal */
+        .main-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .welcome-banner {
+            margin-bottom: 40px;
+        }
+        .welcome-banner h1 { color: #333; margin: 0; }
+        .welcome-banner p { color: #666; margin-top: 5px; }
+
+        /* Grid de Sistemas */
+        .systems-grid {
+            display: grid;
+          /* grid-template-columns: repeat(2, minmax(300px, 1fr))*/
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+            gap: 25px;
+        }
+
+        .system-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 5px solid transparent;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .system-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Cores específicas para as bordas dos cards */
+        .card-dere {border-top-color: #ba8e23; }
+        .card-sompo { border-top-color: #d92525; } /* Vermelho Sompo */
+        .card-iva { border-top-color: var(--arcos-green); } /* Verde Arcos */
+        .card-nfe { border-top-color: #007bff; } /* Azul Genérico */
+
+        .card-body { padding: 25px; flex: 1; }
+        .card-icon { font-size: 2rem; margin-bottom: 15px; }
+        .card-title { font-size: 1.4rem; font-weight: bold; color: #333; margin-bottom: 10px; }
+        .card-desc { color: #666; font-size: 0.95rem; line-height: 1.5; }
+
+        .card-footer {
+            padding: 15px 25px;
+            background-color: #f9f9f9;
+            border-top: 1px solid #eee;
+            text-align: right;
+        }
+
+        .btn-access {
+            text-decoration: none;
+            background-color: #333;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .card-sompo .btn-access:hover { background-color: #d92525; }
+        .card-iva .btn-access:hover { background-color: var(--arcos-green); }
+        .card-nfe .btn-access:hover { background-color: #007bff; }
+
+        .status-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background-color: #eee;
+            color: #555;
+            margin-bottom: 10px;
+        }

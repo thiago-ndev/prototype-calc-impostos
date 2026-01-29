@@ -1,131 +1,167 @@
-{% extends "base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcos Tributos</title>
+    <link rel="stylesheet" href="{% static 'css/style_hub.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!--    <style>-->
+<!--        :root {-->
+<!--            &#45;&#45;arcos-green: #106f36;-->
+<!--            &#45;&#45;arcos-hover: #0d5c2d;-->
+<!--            &#45;&#45;bg-color: #f4f7f9;-->
+<!--        }-->
+<!--        body { margin: 0; font-family: 'Calibri', sans-serif; background-color: var(&#45;&#45;bg-color); }-->
 
-{% block title %}Débitos para Pagamento{% endblock %}
+<!--        /* Cabeçalho Global */-->
+<!--        header {-->
+<!--            background-color: #000;-->
+<!--            color: white;-->
+<!--            padding: 0 30px;-->
+<!--            height: 70px;-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--            box-shadow: 0 2px 5px rgba(0,0,0,0.2);-->
+<!--        }-->
 
-{% block content %}
+<!--        .systems-grid {-->
+<!--    display: grid;-->
+<!--    /* Define exatamente 2 colunas com larguras iguais */-->
+<!--    grid-template-columns: repeat(2, 1fr);-->
+<!--    /* Espaçamento entre os cards (ajuste conforme necessário) */-->
+<!--    gap: 20px;-->
+<!--}-->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --arcos-green: #106f36;
-            --arcos-hover: #0d5c2d;
-            --bg-color: #f4f7f9;
-        }
-        body { margin: 0; font-family: 'Calibri', sans-serif; background-color: var(--bg-color); }
+<!--        .header-left { display: flex; align-items: center; gap: 20px; }-->
+<!--        .logo-text { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }-->
 
-        /* Cabeçalho Global */
-        header {
-            background-color: #000;
-            color: white;
-            padding: 0 30px;
-            height: 70px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
+<!--        /* Navegação do Topo (Requisito NFe) */-->
+<!--        .top-nav a {-->
+<!--            color: #ccc;-->
+<!--            text-decoration: none;-->
+<!--            margin-left: 20px;-->
+<!--            font-size: 0.95rem;-->
+<!--            transition: color 0.3s;-->
+<!--        }-->
+<!--        .top-nav a:hover { color: white; }-->
+<!--        .top-nav a.active { color: white; font-weight: bold; border-bottom: 2px solid var(&#45;&#45;arcos-green); padding-bottom: 22px; }-->
 
-        .header-left { display: flex; align-items: center; gap: 20px; }
-        .logo-text { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }
+<!--        .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; }-->
+<!--        .user-avatar { width: 35px; height: 35px; background-color: var(&#45;&#45;arcos-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }-->
 
-        /* Navegação do Topo (Requisito NFe) */
-        .top-nav a {
-            color: #ccc;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-        .top-nav a:hover { color: white; }
-        .top-nav a.active { color: white; font-weight: bold; border-bottom: 2px solid var(--arcos-green); padding-bottom: 22px; }
+<!--        /* Conteúdo Principal */-->
+<!--        .main-container {-->
+<!--            max-width: 1200px;-->
+<!--            margin: 40px auto;-->
+<!--            padding: 0 20px;-->
+<!--        }-->
 
-        .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .user-avatar { width: 35px; height: 35px; background-color: var(--arcos-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+<!--        .welcome-banner {-->
+<!--            margin-bottom: 40px;-->
+<!--        }-->
+<!--        .welcome-banner h1 { color: #333; margin: 0; }-->
+<!--        .welcome-banner p { color: #666; margin-top: 5px; }-->
 
-        /* Conteúdo Principal */
-        .main-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
+<!--        /* Grid de Sistemas */-->
+<!--        .systems-grid {-->
+<!--            display: grid;-->
+<!--          /* grid-template-columns: repeat(2, minmax(300px, 1fr))*/-->
+<!--            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));-->
 
-        .welcome-banner {
-            margin-bottom: 40px;
-        }
-        .welcome-banner h1 { color: #333; margin: 0; }
-        .welcome-banner p { color: #666; margin-top: 5px; }
+<!--            gap: 25px;-->
+<!--        }-->
 
-        /* Grid de Sistemas */
-        .systems-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
+<!--        .system-card {-->
+<!--            background: white;-->
+<!--            border-radius: 8px;-->
+<!--            overflow: hidden;-->
+<!--            box-shadow: 0 2px 8px rgba(0,0,0,0.08);-->
+<!--            transition: transform 0.3s, box-shadow 0.3s;-->
+<!--            border-top: 5px solid transparent;-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--        }-->
 
-        .system-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border-top: 5px solid transparent;
-            display: flex;
-            flex-direction: column;
-        }
+<!--        .system-card:hover {-->
+<!--            transform: translateY(-5px);-->
+<!--            box-shadow: 0 8px 15px rgba(0,0,0,0.1);-->
+<!--        }-->
 
-        .system-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-        }
+<!--        /* Cores específicas para as bordas dos cards */-->
+<!--        .card-dere {border-top-color: #ba8e23; }-->
+<!--        .card-sompo { border-top-color: #d92525; } /* Vermelho Sompo */-->
+<!--        .card-iva { border-top-color: var(&#45;&#45;arcos-green); } /* Verde Arcos */-->
+<!--        .card-nfe { border-top-color: #007bff; } /* Azul Genérico */-->
 
-        /* Cores específicas para as bordas dos cards */
-        .card-sompo { border-top-color: #d92525; } /* Vermelho Sompo */
-        .card-iva { border-top-color: var(--arcos-green); } /* Verde Arcos */
-        .card-nfe { border-top-color: #007bff; } /* Azul Genérico */
+<!--        .card-body { padding: 25px; flex: 1; }-->
+<!--        .card-icon { font-size: 2rem; margin-bottom: 15px; }-->
+<!--        .card-title { font-size: 1.4rem; font-weight: bold; color: #333; margin-bottom: 10px; }-->
+<!--        .card-desc { color: #666; font-size: 0.95rem; line-height: 1.5; }-->
 
-        .card-body { padding: 25px; flex: 1; }
-        .card-icon { font-size: 2rem; margin-bottom: 15px; }
-        .card-title { font-size: 1.4rem; font-weight: bold; color: #333; margin-bottom: 10px; }
-        .card-desc { color: #666; font-size: 0.95rem; line-height: 1.5; }
+<!--        .card-footer {-->
+<!--            padding: 15px 25px;-->
+<!--            background-color: #f9f9f9;-->
+<!--            border-top: 1px solid #eee;-->
+<!--            text-align: right;-->
+<!--        }-->
 
-        .card-footer {
-            padding: 15px 25px;
-            background-color: #f9f9f9;
-            border-top: 1px solid #eee;
-            text-align: right;
-        }
+<!--        .btn-access {-->
+<!--            text-decoration: none;-->
+<!--            background-color: #333;-->
+<!--            color: white;-->
+<!--            padding: 8px 20px;-->
+<!--            border-radius: 4px;-->
+<!--            font-size: 0.9rem;-->
+<!--            transition: background 0.3s;-->
+<!--        }-->
 
-        .btn-access {
-            text-decoration: none;
-            background-color: #333;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            transition: background 0.3s;
-        }
+<!--        .card-sompo .btn-access:hover { background-color: #d92525; }-->
+<!--        .card-iva .btn-access:hover { background-color: var(&#45;&#45;arcos-green); }-->
+<!--        .card-nfe .btn-access:hover { background-color: #007bff; }-->
 
-        .card-sompo .btn-access:hover { background-color: #d92525; }
-        .card-iva .btn-access:hover { background-color: var(--arcos-green); }
-        .card-nfe .btn-access:hover { background-color: #007bff; }
-
-        .status-badge {
-            display: inline-block;
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 10px;
-            background-color: #eee;
-            color: #555;
-            margin-bottom: 10px;
-        }
-    </style>
-
+<!--        .status-badge {-->
+<!--            display: inline-block;-->
+<!--            font-size: 0.75rem;-->
+<!--            padding: 2px 8px;-->
+<!--            border-radius: 10px;-->
+<!--            background-color: #eee;-->
+<!--            color: #555;-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+<!--    </style>-->
+</head>
 <body>
 
+    <header>
+        <div class="header-left">
+            {% load static %}
+            <img src="{% static 'img/onlylogo_arcosdev.png' %}" alt="Logo" height="40">
+            <span class="logo-text">ARCOS TRIBUTOS</span>
+        </div>
+
+        <nav class="top-nav">
+            <a href="#" class="active">Home</a>
+            <a href="#">Simulador RT</a>
+            <a href="{% url 'captura' %}">Captura NFe <i class="fas fa-external-link-alt" style="font-size: 0.8em;"></i></a>
+            <a href="#">Configurações</a>
+        </nav>
+
+        <div class="user-profile">
+            <div style="text-align: right; margin-right: 10px; font-size: 0.9rem;">
+                <div style="font-weight: bold;">ArcosDev</div>
+                <div style="font-size: 0.8rem; color: #ccc;">CNPJ: 50.466.717/0001-00</div>
+            </div>
+            <div class="user-avatar">A</div>
+            <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i>
+        </div>
+    </header>
 
     <div class="main-container">
         <div class="welcome-banner">
-            <h1>Bem-vindo ao Portal Arcos Tributos</h1>
+            <h1>Bem-vindo ao Portal Corporativo</h1>
             <p>Selecione abaixo o módulo que deseja acessar.</p>
         </div>
 
@@ -137,14 +173,32 @@
                     <div class="card-icon" style="color: #d92525;">
                         <i class="fas fa-calculator"></i>
                     </div>
-                    <div class="card-title">Sompo PIS/COFINS</div>
+                    <div class="card-title">Tributos PIS/COFINS</div>
                     <div class="card-desc">
                         Sistema dedicado de cálculo e apuração de PIS e COFINS.
                         Inclui módulos PSL e abertura analítica por ramo de atividade.
                     </div>
                 </div>
                 <div class="card-footer">
+                    <i class="fa-solid fa-lock"></i>
                     <a href="#" class="btn-access">Acessar Sistema</a>
+                </div>
+            </div>
+
+            <div class="system-card card-dere">
+                <div class="card-body">
+                    <span class="status-badge" style="background: #ffebeb; color: #ba8e23;">Seguradoras</span>
+                    <div class="card-icon" style="color: #ba8e23;">
+                        <i class="fa-solid fa-clipboard"></i>
+                        <i class="fa-regular fa-clipboard"></i>
+                    </div>
+                    <div class="card-title">DERE</div>
+                    <div class="card-desc">
+                        Declaração Eletrônica de Regimes Específicos, ou DERE, é ....
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'dere' %}" class="btn-access">Acessar Sistema</a>
                 </div>
             </div>
 
@@ -152,7 +206,7 @@
                 <div class="card-body">
                     <span class="status-badge" style="background: #e3f9ea; color: var(--arcos-green);">Ativo</span>
                     <div class="card-icon" style="color: var(--arcos-green);">
-                        <i class="fas fa-chart-pie"></i>
+                        <i class="fa-solid fa-dollar-sign" style="margin-left 5px"></i>
                     </div>
                     <div class="card-title">Arcos IVA Tax Dual</div>
                     <div class="card-desc">
@@ -160,6 +214,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
+<!--                    <i class="fa-solid fa-unlock"></i>-->
                     <a href="{% url 'operacoes' %}" class="btn-access">Acessar Sistema</a>
                 </div>
             </div>
@@ -172,11 +227,12 @@
                     </div>
                     <div class="card-title">Gestor de XML (NFe)</div>
                     <div class="card-desc">
-                        Captura automática, armazenamento e gestão de Notas Fiscais Eletrônicas direto do Portal da Receita Federal.
+                        Captura automática, armazenamento e gestão de Notas Fiscais Eletrônicas direto da Receita Federal.
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="#" class="btn-access">Acessar Sistema</a>
+<!--                    <i class="fa-solid fa-unlock"></i>-->
+                    <a href="{% url 'captura'%}" class="btn-access">Acessar Sistema</a>
                 </div>
             </div>
 
@@ -185,5 +241,3 @@
 
 </body>
 </html>
-
-{% endblock %}

@@ -1,0 +1,146 @@
+/* style.css */
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --accent-green: #00e676; /* Verde Arcos */
+    --accent-hover: #00c853;
+    --border-color: #333;
+    --input-bg: #2c2c2c;
+    --danger-red: #ff5252; /* Para débitos */
+    --info-blue: #40c4ff;  /* Para créditos */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* Header Arcos */
+header {
+    background-color: #000;
+    border-bottom: 2px solid var(--accent-green);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #fff;
+}
+.logo span { color: var(--accent-green); }
+
+/* Layout Geral */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+h1, h2 { color: #fff; }
+
+/* Botões e Links */
+.btn {
+    background-color: var(--accent-green);
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    transition: background 0.3s;
+}
+
+.btn:hover { background-color: var(--accent-hover); }
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--accent-green);
+    color: var(--accent-green);
+}
+
+.btn-back { margin-bottom: 1rem; display: inline-block; color: #aaa; text-decoration: none; }
+
+/* Cards de Navegação (Menu Principal) */
+.nav-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+
+.nav-card {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.nav-card:hover { transform: translateY(-5px); border-color: var(--accent-green); }
+
+/* Grid de Formulário (Apuração) */
+.apuracao-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colunas como na imagem */
+    gap: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    background-color: #fff; /* Fundo claro nos inputs como na imagem */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+    box-sizing: border-box; /* Garante que o padding não estoure a largura */
+}
+
+/* Estilos Especiais para Totais (Débito/Crédito) */
+.card-total {
+    padding: 1rem;
+    border-radius: 4px;
+}
+.total-debito {
+    background-color: rgba(255, 82, 82, 0.2);
+    border: 1px solid var(--danger-red);
+}
+.total-credito {
+    background-color: rgba(64, 196, 255, 0.2);
+    border: 1px solid var(--info-blue);
+}
+
+/* Tabelas de Importação */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background-color: var(--card-bg);
+}
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+th { color: var(--accent-green); }

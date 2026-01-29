@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from datetime import datetime
 from .util import *
+from random import randint
 import re
 
 
@@ -14,8 +15,17 @@ def portal_view(request):
 def hub_view(request):
     return render(request, 'hub.html', {'title': 'Hub'})
 
-def hubnew_view(request):
-    return render(request, 'hubnew.html', {'title': 'Hubnew'})
+def captura_view(request):
+    return render(request, 'captura.html', {'title': 'Captura'})
+
+def captura_balancete_view(request):
+    return render(request, 'captura-balancete.html', {'title': 'Balancete'})
+
+def captura_apolices_view(request):
+    return render(request, 'captura-apolices.html', {'title': 'Apolices'})
+
+def dere_view(request):
+    return render(request, 'dere.html', {'title': 'DERE'})
 
 def dashboard_view(request):
     return render(request, 'dashboard.html', {'title': 'Minhas Operações de Consumo'})
@@ -140,9 +150,9 @@ def enviar_receita(request):
 
     return redirect('apuracao')
 
-def api_notas_fiscais(request):
+def notas_fiscais(request):
     """
-    Retorna uma lista de notas fiscais em formato JSON para o Frontend Vue.
+    Retorna uma lista de notas fiscais em formato JSON para o Frontend.
     Simula uma consulta ao banco de dados.
     """
     # Recupera parâmetros da URL (ex: ?inicio=2025-01-01&fim=2025-01-31)
@@ -151,23 +161,56 @@ def api_notas_fiscais(request):
 
     # Simulação de dados (Backend Python gerando a lista)
     lista_notas = []
-    for i in range(20): # Gerar 20 notas simuladas
-        valor_base = 1000 + (i * 10)
+    for i in range(12):
+        dia = f'0{randint(4, 7)}'
+        mes = f'0{i + 1}'
+        if i >= 9:
+            mes = str(i+1)
+
+        valor_base = 976
+        numero_nf = "0000033"+ f"{36 + i}"
         nota = {
-            'data_emissao': '2025-01-10', # Poderia ser dinâmico
-            'data_captura': datetime.now().strftime('%Y-%m-%d'),
-            'cnpj': f'12.345.678/0001-{i:02d}',
-            'razao_social': f'Prestador Python Django {i + 1}', # Mudei o nome para você ver que vem do Django
+            'data_emissao': f'{dia}-{mes}-2025',
+            'data_captura': datetime.now().strftime('%d-%m-%Y'),
+            'cnpj_tomador': '50.466.717/0001-00',
+            'razao_tomador': 'ARCOS DA LAPA DESENVOLVIMENTO DE SISTEMAS E CONSULTORIA LTDA',
+            'municipio_tomador': 'Rio de Janeiro',
+            'uf_tomador': 'RJ',
+
+            'cnpj_prestador': '23.301.943/0015-55',
+            'razao_prestador': 'WEWORK SERVICOS DE ESCRITORIO LTDA',
+            'municipio_prestador': 'São Paulo',
+            'uf_prestador': 'SP',
+
+            'cnpj_intermediario': 'N/A',
+            'razao_intermediario': 'N/A',
+            'municipio_intermediario': 'N/A',
+            'uf_intermediario': 'N/A',
+
+            'numero_nf': numero_nf,
             'valor_bruto': valor_base,
+            'codigo_servico': 7773,
+            'nbs': 'N/A',
+            'nbs_descricao': 'N/A',
             'irrf': valor_base * 0.015,
-            'inss': valor_base * 0.02,
+            'irrf_aliq': '1,5%',
             'iss': valor_base * 0.05,
-            'ibs': valor_base * 0.1,  # Reforma tributária chegando!
+            'iss_aliq': '5%',
+
+            'inss': valor_base * 0.02,
+            'csrf': 0,
+
+            'personalidade_jur': 'N/A',
+
             'cbs': valor_base * 0.12,
-            'municipio': 'Rio de Janeiro',
-            'uf': 'RJ',
+            'cbs_aliq': '12%',
+            'ibs': valor_base * 0.1,
+            'ibs_aliq': '10%',
+
+            'valor_liquido': 0,
+            'chave_nf': 'N/A',
         }
-        lista_notas.append(nota)
+        lista_notas.append(nota) # lista de dicionários
 
     # Retorna como JSON. 'safe=False' permite retornar listas, não só dicionários.
     return JsonResponse({'data': lista_notas}, safe=False)
