@@ -27,9 +27,6 @@ def captura_apolices_view(request):
 def dere_view(request):
     return render(request, 'dere.html', {'title': 'DERE'})
 
-def dashboard_view(request):
-    return render(request, 'dashboard.html', {'title': 'Minhas Operações de Consumo'})
-
 
 def apuracao_view(request):
     # Tenta recuperar o valor de utilizados se já tiver sido salvo, para o input não voltar ao padrão
@@ -41,7 +38,7 @@ def apuracao_view(request):
 
 
 
-# ATUALIZADO: Cálculo dinâmico para o Dashboard
+
 def operacoes_view(request):
     # Valores Padrão (Simulação)
     nao_apropriados = 15000.00
@@ -98,7 +95,7 @@ def cadastra_cnpj(request):
         try:
             cnpj_int = int(cnpj_limpo)
             if valida_cnpj(cnpj_int):
-                return redirect('dashboard')
+                return redirect('operacoes')
             else:
                 return render(request, 'login.html', {'title': 'Login', 'error': 'CNPJ Inválido'})
         except ValueError:
@@ -121,7 +118,7 @@ def enviar_receita(request):
         # SALVA NA SESSÃO
         request.session['aliquota'] = aliquota
         request.session['receita'] = receita
-        request.session['utilizados'] = utilizados  # Salva para o Dashboard usar
+        request.session['utilizados'] = utilizados
 
         try:
             base_calculo = 560000.00

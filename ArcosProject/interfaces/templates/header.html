@@ -1,0 +1,23 @@
+{% load static %}
+<header>
+    <div class="header-left">
+        <img src="{% static 'img/onlylogo_arcosdev.png' %}" alt="Logo" height="40">
+        <span class="logo-text">ARCOS TRIBUTOS</span>
+    </div>
+
+    <nav class="top-nav">
+        <a href="#" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+        <a href="#" class="">Simulador RT</a>
+        <a href="{% url 'captura' %}" class="{% if 'captura' in request.path %}active{% endif %}">Captura NFe <i class="fas fa-external-link-alt" style="font-size: 0.8em;"></i></a>
+        <a href="#" class="">Configurações</a>
+    </nav>
+
+    <div class="user-profile">
+        <div style="text-align: right; margin-right: 10px; font-size: 0.9rem;">
+            <div style="font-weight: bold;">ArcosDev</div>
+            <div style="font-size: 0.8rem; color: #ccc;">CNPJ: 50.466.717/0001-00</div>
+        </div>
+        <div class="user-avatar">A</div>
+        <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i>
+    </div>
+</header>

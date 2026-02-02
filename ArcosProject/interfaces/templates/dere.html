@@ -5,99 +5,115 @@
     <meta charset="UTF-8">
     <title>Arcos Tributos - DERE</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-<header>
-    <div class="logo">ARCOS <span>TRIBUTOS</span></div>
-    <div class="user-menu">DERE - Seguradoras</div>
-</header>
+{% include 'header.html' %}
 
-<div class="container">
-    <h1>Painel DERE (IBS/CBS)</h1>
-    <p>Selecione uma fonte de dados para capturar ou realize a apuração abaixo.</p>
+<div class="main-container">
 
-    <div class="nav-grid">
-        <div class="nav-card">
-            <h3>Balancetes</h3>
-            <p>Importar Plano de Contas SUSEP</p>
-            <a href="{% url 'captura-balancete' %}" class="btn btn-outline">Ir para Captura</a>
+    <div class="welcome-banner">
+        <h1>Painel DERE (IBS/CBS)</h1>
+        <p>Gestão de Seguradoras e Apuração de Impostos</p>
+    </div>
+
+    <div class="systems-grid">
+        <div class="system-card card-dere">
+            <div class="card-body">
+                <div class="card-icon" style="color: #ba8e23;"><i class="fas fa-file-invoice-dollar"></i></div>
+                <div class="card-title">Balancetes</div>
+                <div class="card-desc">Importar Plano de Contas SUSEP e visualizar estrutura.</div>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'captura-balancete' %}" class="btn-outline">Ir para Captura</a>
+            </div>
         </div>
-        <div class="nav-card">
-            <h3>Apólices</h3>
-            <p>Capturar e Exibir Apólices</p>
-            <a href="{% url 'captura-apolices' %}" class="btn btn-outline">Ir para Captura</a>
+
+        <div class="system-card card-dere">
+            <div class="card-body">
+                <div class="card-icon" style="color: #ba8e23;"><i class="fas fa-file-contract"></i></div>
+                <div class="card-title">Apólices</div>
+                <div class="card-desc">Capturar, gerenciar e exibir Apólices emitidas.</div>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'captura-apolices' %}" class="btn-outline">Ir para Captura</a>
+            </div>
         </div>
-        <div class="nav-card">
-            <h3>Notas Fiscais (NFe)</h3>
-            <p>Corretagem e Sinistros</p>
-            <a href="{% url 'captura' %}" class="btn btn-outline">Gerenciar NFes</a>
+
+        <div class="system-card card-dere">
+            <div class="card-body">
+                <div class="card-icon" style="color: #ba8e23;"><i class="fas fa-receipt"></i></div>
+                <div class="card-title">Notas Fiscais (NFe)</div>
+                <div class="card-desc">Gestão de NFe de entrada para Corretagem e Sinistros.</div>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'captura' %}" class="btn-outline">Gerenciar NFes</a>
+            </div>
         </div>
     </div>
 
-    <hr style="border-color: #333; margin: 3rem 0;">
+    <hr>
 
-    <div class="apuracao-section">
-        <h2>Apuração Assistida</h2>
-        <div class="nav-card" style="text-align: left; border: none; background: transparent; padding: 0;">
+    <h2 class="section-title">Apuração Assistida</h2>
 
-            <form id="formApuracao">
-                <div class="apuracao-grid">
-                    <div class="col">
-                        <div class="form-group">
-                            <label>Receita</label>
-                            <input type="text" class="form-control" value="R$ 1.000.000,00">
-                        </div>
-                        <div class="form-group">
-                            <label>Sinistros</label>
-                            <input type="text" class="form-control" value="R$ 350.000,00">
-                        </div>
-                        <div class="form-group">
-                            <label>Receita Financeira - Ativos Garantidores</label>
-                            <input type="text" class="form-control" value="0,00">
-                        </div>
-
-                        <div class="form-group card-total total-debito">
-                            <label style="color: #ff8a80;">Total de Débitos</label>
-                            <input type="text" class="form-control" value="R$ 60.760,00" style="font-weight: bold;">
-                        </div>
+    <div class="apuracao-container">
+        <form id="formApuracao">
+            <div class="apuracao-grid">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Receita</label>
+                        <input type="text" class="form-control" value="R$ 1.000.000,00">
+                    </div>
+                    <div class="form-group">
+                        <label>Sinistros</label>
+                        <input type="text" class="form-control" value="R$ 350.000,00">
+                    </div>
+                    <div class="form-group">
+                        <label>Receita Financeira - Ativos Garantidores</label>
+                        <input type="text" class="form-control" value="0,00">
                     </div>
 
-                    <div class="col">
-                        <div class="form-group">
-                            <label>Valores Corretagem</label>
-                            <input type="text" class="form-control" value="R$ 90.000,00">
-                        </div>
-                        <div class="form-group">
-                            <label>Base de Cálculo</label>
-                            <input type="text" class="form-control" value="R$ 560.000,00">
-                        </div>
-                        <div class="form-group">
-                            <label>Alíquota (%)</label>
-                            <select class="form-control">
-                                <option>10,85</option>
-                                <option>26,50 (Padrão IBS/CBS)</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group card-total total-credito">
-                            <label style="color: #80d8ff;">Total de Créditos</label>
-                            <input type="text" class="form-control" value="R$ 15.000,00" style="font-weight: bold;">
-                        </div>
+                    <div class="form-group card-total total-debito">
+                        <label>Total de Débitos</label>
+                        <input type="text" class="form-control" value="R$ 60.760,00" readonly>
                     </div>
                 </div>
 
-                <div class="form-group" style="margin-top: 20px;">
-                    <label style="color: #69f0ae;">IVA a Pagar / Resultado do Período</label>
-                    <input type="text" class="form-control" value="R$ 45.760,00" style="background-color: #e8f5e9; color: #2e7d32; font-weight: bold; border: 2px solid #00e676;">
-                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Valores Corretagem</label>
+                        <input type="text" class="form-control" value="R$ 90.000,00">
+                    </div>
+                    <div class="form-group">
+                        <label>Base de Cálculo</label>
+                        <input type="text" class="form-control" value="R$ 560.000,00">
+                    </div>
+                    <div class="form-group">
+                        <label>Alíquota (%)</label>
+                        <select class="form-control">
+                            <option>10,85</option>
+                            <option>26,50 (Padrão IBS/CBS)</option>
+                        </select>
+                    </div>
 
-                <div style="text-align: right; margin-top: 20px;">
-                    <button type="button" class="btn">Recalcular Tributos</button>
-                    <button type="button" class="btn btn-outline">Gerar Declaração</button>
+                    <div class="form-group card-total total-credito">
+                        <label>Total de Créditos</label>
+                        <input type="text" class="form-control" value="R$ 15.000,00" readonly>
+                    </div>
                 </div>
-            </form>
-        </div>
+            </div>
+
+            <div class="form-group card-total total-resultado" style="margin-top: 30px;">
+                <label>IVA a Pagar / Resultado do Período</label>
+                <input type="text" class="form-control" value="R$ 45.760,00" readonly>
+            </div>
+
+            <div style="text-align: right; margin-top: 30px;">
+                <button type="button" class="btn btn-outline" style="margin-right: 10px;">Recalcular Tributos</button>
+                <button type="button" class="btn">Gerar Declaração</button>
+            </div>
+        </form>
     </div>
 </div>
 
