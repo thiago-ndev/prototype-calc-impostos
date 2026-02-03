@@ -1,18 +1,13 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Arcos Tributos - DERE</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
+{% extends 'base.html' %} {% block header_title %}DERE - Seguradoras{% endblock %}
 
-{% include 'header.html' %}
+{% block header_nav %}
+    <a href="{% url 'dere' %}" class="active">Painel</a>
+    <a href="{% url 'captura-balancete' %}">Balancetes</a>
+    <a href="{% url 'captura-apolices' %}">Apólices</a>
+    <a href="{% url 'captura' %}">NFe</a>
+{% endblock %}
 
-<div class="main-container">
-
+{% block content %}
     <div class="welcome-banner">
         <h1>Painel DERE (IBS/CBS)</h1>
         <p>Gestão de Seguradoras e Apuração de Impostos</p>
@@ -115,7 +110,4 @@
             </div>
         </form>
     </div>
-</div>
-
-</body>
-</html>
+{% endblock %}

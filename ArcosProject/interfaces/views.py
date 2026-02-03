@@ -12,8 +12,8 @@ def login_view(request):
 def portal_view(request):
     return render(request, 'portal.html', {'title': 'Portal'})
 
-def hub_view(request):
-    return render(request, 'hub.html', {'title': 'Hub'})
+def home_view(request):
+    return render(request, 'home.html', {'title': 'home'})
 
 def captura_view(request):
     return render(request, 'captura.html', {'title': 'Captura'})

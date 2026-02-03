@@ -15,158 +15,103 @@
 
 body { margin: 0; font-family: 'Calibri', 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); }
 
-/* --- HEADER GLOBAL --- */
+/* --- HEADER MODULAR (NOVO) --- */
 header {
     background-color: #000;
     color: white;
-    padding: 0 30px;
     height: 70px;
+    padding: 0 30px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-.header-left { display: flex; align-items: center; gap: 20px; }
-.logo-text { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }
+/* Identidade */
+.header-identity { display: flex; align-items: center; gap: 15px; }
+.header-divider { height: 25px; width: 1px; background-color: #444; }
+.module-title { font-family: Verdana; font-size: 1.0rem; font-weight: 400; color: #fff; letter-spacing: 0.5px; text-transform: uppercase; }
 
-.top-nav a {
-    color: #ccc;
-    text-decoration: none;
-    margin-left: 20px;
-    font-size: 0.95rem;
-    transition: color 0.3s;
-}
-.top-nav a:hover { color: white; }
-.top-nav a.active { color: white; font-weight: bold; border-bottom: 2px solid var(--arcos-green); padding-bottom: 22px; }
+/* Navegação */
+.header-nav-container { display: flex; align-items: center; gap: 20px; flex: 1; margin-left: 20px; }
+.static-home-link { color: #aaa; text-decoration: none; font-size: 0.9rem; font-weight: bold; text-transform: uppercase; transition: color 0.3s; display: flex; align-items: center; gap: 5px; }
+.static-home-link:hover { color: var(--arcos-green); }
 
-.user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.context-nav { display: flex; gap: 15px; border-left: 1px solid #444; padding-left: 20px; }
+.context-nav a { color: #ccc; text-decoration: none; font-size: 1rem; transition: color 0.3s; position: relative; }
+.context-nav a:hover { color: white; }
+.context-nav a.active { color: white; font-weight: bold; }
+.context-nav a.active::after { content: ''; position: absolute; bottom: -24px; left: 0; width: 100%; height: 3px; background-color: var(--arcos-green); }
+
+/* Perfil */
+.user-profile { margin-left: auto; display: flex; align-items: center; gap: 10px; cursor: pointer; }
 .user-avatar { width: 35px; height: 35px; background-color: var(--arcos-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; }
 
 /* --- ESTRUTURA GERAL --- */
-.main-container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
-
+.main-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
 .welcome-banner { margin-bottom: 40px; }
 .welcome-banner h1 { color: #333; margin: 0; }
 .welcome-banner p { color: #666; margin-top: 5px; }
 .section-title { font-size: 1.5rem; color: #333; margin: 2rem 0 1rem; border-left: 5px solid var(--arcos-green); padding-left: 10px; }
 
-/* --- CARDS (PADRONIZADO) --- */
-.systems-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-}
-
-.system-card {
-    background: var(--card-bg);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    transition: transform 0.3s, box-shadow 0.3s;
-    border-top: 5px solid transparent;
-    display: flex;
-    flex-direction: column;
-}
-
+/* --- CARDS --- */
+.systems-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+.system-card { background: var(--card-bg); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; border-top: 5px solid transparent; display: flex; flex-direction: column; }
 .system-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
 
-/* Variações de Borda */
+/* Cores de Borda */
 .card-dere { border-top-color: #ba8e23; }
 .card-sompo { border-top-color: #d92525; }
 .card-iva { border-top-color: var(--arcos-green); }
 .card-nfe { border-top-color: #007bff; }
-.card-default { border-top-color: #999; }
 
 .card-body { padding: 25px; flex: 1; }
 .card-icon { font-size: 2rem; margin-bottom: 15px; }
 .card-title { font-size: 1.4rem; font-weight: bold; color: #333; margin-bottom: 10px; }
 .card-desc { color: #666; font-size: 0.95rem; line-height: 1.5; }
+.card-footer { padding: 15px 25px; background-color: #f9f9f9; border-top: 1px solid #eee; text-align: right; }
 
-.card-footer {
-    padding: 15px 25px;
-    background-color: #f9f9f9;
-    border-top: 1px solid #eee;
-    text-align: right;
-}
-
-.status-badge {
-    display: inline-block;
-    font-size: 0.75rem;
-    padding: 2px 8px;
-    border-radius: 10px;
-    background-color: #eee;
-    color: #555;
-    margin-bottom: 10px;
-}
+.status-badge { display: inline-block; font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; background-color: #eee; color: #555; margin-bottom: 10px; }
 
 /* --- BOTÕES --- */
-.btn, .btn-access {
-    text-decoration: none;
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    transition: background 0.3s;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-}
-.btn-outline {
-    background-color: transparent;
-    border: 1px solid var(--arcos-green);
-    color: var(--arcos-green);
-}
-.btn-outline:hover { background-color: var(--arcos-green); color: white; }
+.btn, .btn-access, .btn-search { text-decoration: none; background-color: #333; color: white; padding: 10px 20px; border-radius: 4px; font-size: 0.9rem; transition: background 0.3s; border: none; cursor: pointer; font-family: inherit; font-weight: bold; }
+.btn:hover, .btn-access:hover { opacity: 0.9; }
 
+.btn-outline { background-color: transparent; border: 1px solid var(--arcos-green); color: var(--arcos-green); }
+.btn-outline:hover { background-color: var(--arcos-green); color: white; }
+.btn-danger { background-color: #d92525; color: white; }
+.btn-success { background-color: var(--success-text); color: white; }
+
+/* Hover Específico dos Cards */
 .card-sompo .btn-access:hover { background-color: #d92525; }
 .card-iva .btn-access:hover { background-color: var(--arcos-green); }
 .card-dere .btn-access:hover { background-color: #ba8e23; }
 .card-nfe .btn-access:hover { background-color: #007bff; }
 
-/* --- FORMULÁRIOS & APURAÇÃO (MIGRADO E ADAPTADO DO STYLE.CSS) --- */
-.apuracao-container {
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
+/* --- FORMULÁRIOS & APURAÇÃO --- */
+.apuracao-container, .filter-card, .table-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
-.apuracao-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-}
+.apuracao-grid, .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; }
+.filter-grid { display: flex; gap: 20px; align-items: flex-end; }
 
-.form-group { margin-bottom: 1rem; }
-.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #555; }
+.form-group { margin-bottom: 1rem; flex: 1; }
+.form-group label, .field-title { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #555; }
+.data-card { background-color: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px solid #eee; }
 
-.form-control {
-    width: 100%;
-    padding: 12px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    color: #333;
-    box-sizing: border-box;
-    transition: border 0.3s;
-}
+.form-control { width: 100%; padding: 12px; background-color: #fff; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; color: #333; box-sizing: border-box; transition: border 0.3s; }
 .form-control:focus { outline: none; border-color: var(--arcos-green); }
 
-/* Totais Coloridos (Light Mode) */
+/* Totais Coloridos */
 .card-total input { font-weight: bold; border-width: 2px; }
 .total-debito input { background-color: var(--danger-light); color: var(--danger-text); border-color: var(--danger-text); }
 .total-credito input { background-color: var(--info-light); color: var(--info-text); border-color: var(--info-text); }
 .total-resultado input { background-color: var(--success-light); color: var(--success-text); border-color: var(--success-text); }
 
-.total-debito label { color: var(--danger-text); }
-.total-credito label { color: var(--info-text); }
-.total-resultado label { color: var(--success-text); }
+/* Tabelas */
+table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+th { background-color: #f1f1f1; color: #333; font-weight: bold; }
+tr:hover { background-color: #f9f9f9; }
 
 hr { border: 0; border-top: 1px solid #e0e0e0; margin: 3rem 0; }

@@ -1,16 +1,15 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcos Tributos</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
+{% extends 'base.html' %}
 
-    {% include 'header.html' %}
+{% block header_title %}ARCOS TRIBUTOS{% endblock %}
+
+{% block header_nav %}
+    <a href="#" class="active">Dashboard</a>
+    <a href="#">Simulador RT</a>
+    <a href="#">Configurações</a>
+{% endblock %}
+
+{% block content %}
+
 
     <div class="main-container">
         <div class="welcome-banner">
@@ -61,16 +60,29 @@
 
             <div class="system-card card-nfe">
                 <div class="card-body">
-                    <span class="status-badge" style="background: #e6f2ff; color: #007bff;">Novo Módulo</span>
+                    <span class="status-badge" style="background: #e6f2ff; color: #007bff;">Módulo Conjunto</span>
                     <div class="card-icon" style="color: #007bff;"><i class="fas fa-cloud-download-alt"></i></div>
-                    <div class="card-title">Gestor de XML (NFe)</div>
+                    <div class="card-title">Gestor de NF-e</div>
                     <div class="card-desc">Captura automática e armazenamento de Notas Fiscais Eletrônicas.</div>
                 </div>
                 <div class="card-footer"><!--<i class="fa-solid fa-unlock"></i>-->
                     <a href="{% url 'captura'%}" class="btn-access">Acessar Sistema</a>
                 </div>
             </div>
+
+            <div class="system-card card-nfe">
+                <div class="card-body">
+                    <span class="status-badge" style="background: #e6f2ff; color: #007bff;">Módulo Conjunto</span>
+                    <div class="card-icon" style="color: #007bff;"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <div class="card-title">Emissor de NF-e</div>
+                    <div class="card-desc">Emissão de Notas Fiscais Eletrônicas diretamente para a Receita Federal.</div>
+                </div>
+                <div class="card-footer"><i class="fa-solid fa-lock"></i>
+                    <a href="{% url 'home'%}" class="btn-access">Acessar Sistema</a>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 </html>
+{% endblock %}

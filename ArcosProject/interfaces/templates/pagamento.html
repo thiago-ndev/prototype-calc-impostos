@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}Débitos para Pagamento{% endblock %}
+{% block page_title %}Apuração - IVA Dual{% endblock %}
+
+{% block header_title %}Arcos IVA Tax Dual{% endblock %}
+
+{% block header_nav %}
+    <a href="{% url 'operacoes' %}">Operações</a>
+    <a href="{% url 'apuracao' %}">Apuração</a>
+    <a href="{% url 'pagamento' %}" class="active">Pagamento</a>
+{% endblock %}
 
 {% block content %}
     <h1>Débitos selecionados para serem pagos</h1>

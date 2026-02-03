@@ -1,217 +1,48 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Captura de Notas Fiscais - Arcos Tributos</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% extends 'base.html' %} 
 
-    <style>
-        :root {
-            --arcos-green: #106f36;
-            --arcos-hover: #0d5c2d;
-            --bg-color: #f4f7f9;
-        }
-        body { margin: 0; font-family: 'Calibri', sans-serif; background-color: var(--bg-color); }
+{% block page_title %}Captura NFe{% endblock %}
+{% block header_title %}Gestor de XML (NFe){% endblock %}
 
-        /* --- INÍCIO DO CSS DO HEADER (Vindo do hub.html) --- */
-        header {
-            background-color: #000;
-            color: white;
-            padding: 0 30px;
-            height: 70px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
+{% block header_nav %}
+    <a href="{% url 'home' %}">Dashboard</a>
+    <a href="#" class="active">Consulta NFe</a>
+    <a href="#">Importação</a>
+{% endblock %}
 
-        .header-left { display: flex; align-items: center; gap: 20px; }
-        .logo-text { font-size: 1.5rem; font-weight: bold; letter-spacing: 1px; }
-
-        .top-nav a {
-            color: #ccc;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-        .top-nav a:hover { color: white; }
-        /* Destaque para a página atual */
-        .top-nav a.active { color: white; font-weight: bold; border-bottom: 2px solid var(--arcos-green); padding-bottom: 22px; }
-
-        .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .user-avatar { width: 35px; height: 35px; background-color: var(--arcos-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        /* --- FIM DO CSS DO HEADER --- */
-
-        /* Estilos da Página de Captura */
-        .main-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .filter-card {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-            border-top: 4px solid #007bff; /* Azul para combinar com o card NFe do Hub */
-        }
-
-        .filter-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .filter-grid {
-            display: flex;
-            gap: 20px;
-            align-items: flex-end; /* Alinha o botão com os inputs */
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            flex: 1; /* Ocupa espaço igual */
-        }
-
-        .form-group label {
-            font-weight: bold;
-            font-size: 0.9rem;
-            color: #555;
-        }
-
-        .form-control {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        .btn-search {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 11px 25px;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-            font-weight: bold;
-        }
-
-        .btn-search:hover { background-color: #0056b3; }
-
-        /* Estilos da Tabela */
-        .table-container {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            overflow-x: auto; /* Permite scroll lateral se tiver muitas colunas */
-            display: none; /* Escondido inicialmente */
-            padding: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-
-        thead tr {
-            background-color: #f1f1f1;
-            color: #333;
-            text-align: left;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #eee;
-            white-space: nowrap; /* Evita quebra de linha nas células */
-        }
-
-        tbody tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        .loading-msg {
-            text-align: center;
-            padding: 20px;
-            font-style: italic;
-            color: #666;
-            display: none;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="header-left">
-            {% load static %}
-            <img src="{% static 'img/onlylogo_arcosdev.png' %}" alt="Logo" height="40">
-            <span class="logo-text">ARCOS TRIBUTOS</span>
+{% block content %}
+    <div class="filter-card">
+        <div class="filter-title">
+            <i class="fas fa-search"></i> Consulta de Notas Fiscais (NFe/NFCe)
         </div>
 
-        <nav class="top-nav">
-            <a href="{% url 'hub' %}">Home</a>
-            <a href="#">Simulador RT</a>
-            <a href="#" class="active">Captura NFe <i class="fas fa-external-link-alt" style="font-size: 0.8em;"></i></a>
-            <a href="#">Configurações</a>
-        </nav>
-
-        <div class="user-profile">
-            <div style="text-align: right; margin-right: 10px; font-size: 0.9rem;">
-                <div style="font-weight: bold;">ArcosDev</div>
-                <div style="font-size: 0.8rem; color: #ccc;">CNPJ: 50.466.717/0001-00</div>
+        <div class="filter-grid">
+            <div class="form-group">
+                <label for="data-inicio">Data Início</label>
+                <input type="date" id="data-inicio" class="form-control">
             </div>
-            <div class="user-avatar">A</div>
-            <i class="fas fa-chevron-down" style="font-size: 0.8rem; margin-left: 5px;"></i>
-        </div>
-    </header>
-
-    <div class="main-container">
-
-        <div class="filter-card">
-            <div class="filter-title">
-                <i class="fas fa-search"></i> Consulta de Notas Fiscais (NFe/NFCe)
+            <div class="form-group">
+                <label for="data-fim">Data Fim</label>
+                <input type="date" id="data-fim" class="form-control">
             </div>
-
-            <div class="filter-grid">
-                <div class="form-group">
-                    <label for="data-inicio">Data Início</label>
-                    <input type="date" id="data-inicio" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="data-fim">Data Fim</label>
-                    <input type="date" id="data-fim" class="form-control">
-                </div>
-                <div>
-                    <button class="btn-search" onclick="buscarNotas()">
-                        <i class="fas fa-search"></i> Buscar Notas
-                    </button>
-                </div>
+            <div>
+                <button class="btn btn-search" onclick="buscarNotas()">
+                    <i class="fas fa-search"></i> Buscar Notas
+                </button>
             </div>
         </div>
+    </div>
 
-        <div id="loading" class="loading-msg">
-            <i class="fas fa-spinner fa-spin"></i> Buscando dados na Receita Federal...
+    <div id="loading" style="text-align: center; display: none; padding: 20px; color: #666;">
+        <i class="fas fa-spinner fa-spin"></i> Buscando dados na Receita Federal...
+    </div>
+
+    <div id="resultado-container" class="table-container" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="margin: 0; color: #333;">Resultados da Busca</h3>
+            <a href="#" class="btn btn-danger">Exportar XML em Lotes</a>
         </div>
 
-        <div id="resultado-container" class="table-container">
-            <h3 style="margin-top: 0; color: #333;">Resultados da Busca</h3>
-
-                    <a href="#" class="btn-danger">Exportar XML em Lotes</a>
-
-            <p></p>
-
+        <div style="overflow-x: auto;">
             <table id="tabela-notas">
                 <thead>
                     <tr>
@@ -379,5 +210,4 @@
         }
     </script>
 
-</body>
-</html>
+{% endblock %}

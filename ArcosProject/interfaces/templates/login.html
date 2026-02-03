@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Login{% endblock %}
+{% block page_title %}Login{% endblock %}
+
+{% block header_title %}Arcos IVA Tax Dual{% endblock %}
+
+{% block header_nav %}
+    <a href="{% url 'operacoes' %}">Operações</a>
+    <a href="{% url 'apuracao' %}" class="active">Apuração</a> <a href="{% url 'pagamento' %}">Pagamento</a>
+{% endblock %}
 
 {% block content %}
     <h2>Login</h2>

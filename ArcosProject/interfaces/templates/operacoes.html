@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}Minhas Operações de Consumo{% endblock %}
+{% block page_title %}Apuração - IVA Dual{% endblock %}
+
+{% block header_title %}Arcos IVA Tax Dual{% endblock %}
+
+{% block header_nav %}
+    <a href="{% url 'operacoes' %}" class="active">Operações</a>
+    <a href="{% url 'apuracao' %}">Apuração</a>
+    <a href="{% url 'pagamento' %}">Pagamento</a>
+{% endblock %}
 
 {% block content %}
     <h1>Minhas Operações de Consumo</h1>
