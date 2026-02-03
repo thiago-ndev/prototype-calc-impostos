@@ -1,19 +1,16 @@
+{% extends 'base.html' %} {% block header_title %}DERE - Seguradoras{% endblock %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Captura de Apólices - Arcos</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
+{% block header_nav %}
+    <a href="{% url 'dere' %}" class="active">Painel</a>
+    <a href="{% url 'captura-balancete' %}">Balancetes</a>
+    <a href="{% url 'captura-apolices' %}">Apólices</a>
+    <a href="{% url 'captura' %}">NFe</a>
+{% endblock %}
 
-<header>
-    <div class="logo">ARCOS <span>TRIBUTOS</span></div>
-</header>
+{% block content %}
 
 <div class="container">
-    <a href="{% url 'dere' %}" class="btn-back">← Voltar para DERE</a>
+
 
     <h2>Captura de Apólices</h2>
     <p>Importe a base de prêmios emitidos.</p>
@@ -47,5 +44,4 @@
 </div>
 
 <script src="{% static 'js/script.js' %}"></script>
-</body>
-</html>
+{% endblock %}
