@@ -9,6 +9,9 @@ import re
 def login_view(request):
     return render(request, 'login.html', {'title': 'Login'})
 
+def login_cnpj_view(request):
+    return render(request, 'login_cnpj.html', {'title': 'Login_CNPJ'})
+
 def portal_view(request):
     return render(request, 'portal.html', {'title': 'Portal'})
 

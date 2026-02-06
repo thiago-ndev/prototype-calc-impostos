@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block page_title %}Login{% endblock %}
+
+{% block header_title %}Arcos IVA Tax Dual{% endblock %}
+
+{% block header_nav %}
+    <a href="{% url 'operacoes' %}">Operações</a>
+    <a href="{% url 'apuracao' %}" class="active">Apuração</a> <a href="{% url 'pagamento' %}">Pagamento</a>
+{% endblock %}
+
+{% block content %}
+    <h2>Login</h2>
+    <p>Digite abaixo o Número de Identificação (CPF ou CNPJ) do contribuinte que deseja simular.</p>
+
+    <form action="{% url 'cadastro' %}" method="POST">
+        {% csrf_token %} <div class="field-group">
+            <label for="cnpj" class="field-title">CPF ou CNPJ (obrigatório)</label>
+
+            <input type="text"
+                   id="cnpj"
+                   name="cnpj"
+                   required
+                   maxlength="18"
+                   placeholder="00.000.000/0000-00"
+                   oninput="mascaraCNPJ(this)"
+                   style="padding: 10px; font-size: 16px; width: 200px;">
+
+            <p style="color: #dc3545; font-size: 0.9em;">Campo obrigatório. Números do CPF ou CNPJ.</p>
+        </div>
+
+        <button type="submit" class="btn">Entrar</button>
+        <!--
+        <a href="#" class="btn btn-success">Entrar com gov.br</a>
+        -->
+    </form>
+
+    <script>
+        function mascaraCNPJ(i) {
+            let v = i.value;
+            v = v.replace(/\D/g, "");
+            v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+            v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+            v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+            v = v.replace(/(\d{4})(\d)/, "$1-$2");
+            i.value = v;
+        }
+    </script>
+{% endblock %}
